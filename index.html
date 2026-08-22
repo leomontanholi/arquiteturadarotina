@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hard Mode 21 — diagnóstico e plano de 21 dias aplicado à sua rotina." />
+  <meta name="theme-color" content="#0f1014" />
+  <title>Hard Mode 21 — Diagnóstico + Plano de 21 Dias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink:#0f1014;
+      --paper:#ffffff;
+      --soft:#f4f5f7;
+      --soft-2:#eceef2;
+      --line:#d8dbe2;
+      --muted:#686e79;
+      --success:#177a45;
+      --sans:"Inter",Arial,sans-serif;
+      --display:"Space Grotesk",Arial,sans-serif;
+      --mono:"Space Mono",monospace;
+      --condensed:"Bebas Neue",Impact,sans-serif;
+      --container:1180px;
+      --radius:12px;
+      --shadow:0 22px 60px rgba(15,16,20,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+    button,a{font:inherit}
+    a{color:inherit;text-decoration:none}
+    button{color:inherit}
+    img{display:block;max-width:100%}
+    .container{width:min(var(--container),calc(100% - 40px));margin-inline:auto}
+    .section{padding:112px 0;border-top:1px solid var(--line)}
+    .section.soft{background:var(--soft)}
+    .section.dark{background:var(--ink);color:#fff;border-color:#292b31}
+    .eyebrow{margin:0 0 18px;font:700 11px/1.35 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+    .dark .eyebrow{color:#aeb3bd}
+    h1,h2,h3,p{margin-top:0}
+    h1,h2,h3{font-family:var(--display);letter-spacing:-.045em;text-wrap:balance}
+    p,li,.faq-answer,.method-item b,.weekday p{ text-wrap:pretty; }
+    .btn,.timed-link,.faq-question b{ text-wrap:balance; }
+    .section-title{max-width:920px;margin-bottom:22px;font-size:clamp(40px,5.7vw,78px);line-height:.98}
+    .section-intro{max-width:760px;margin:0;font-size:18px;line-height:1.72;color:var(--muted);text-wrap:pretty}
+    .section-title,.reveal-copy h2,.offer-copy h2,.closing-copy h2{ text-wrap:balance; }
+    .body-copy p,.reveal-copy p,.offer-copy p,.closing-copy p,.faq-answer p{ text-wrap:pretty; }
+    .dark .section-intro{color:#c5c8cf}
+    .body-copy{font-size:18px;line-height:1.78;color:#343841}
+    .body-copy p:last-child{margin-bottom:0}
+    .dark .body-copy{color:#d1d4da}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:0 24px;border:1px solid var(--ink);border-radius:8px;background:var(--ink);color:#fff;font-weight:800;transition:background .2s ease,color .2s ease,transform .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn.light{background:#fff;color:var(--ink);border-color:#fff}
+    .btn.full{width:100%}
+    .microcopy{margin:14px 0 0;color:var(--muted);font-size:13px;line-height:1.55}
+    .dark .microcopy{color:#aeb3bd}
+    button,.btn{font-family:var(--display)!important}
+
+    /* Header */
+    .topbar{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .topbar-inner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:18px}
+    .brand img{width:136px;height:auto}
+    .header-lesson{font:700 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    .header-cta{display:none}
+    body.is-revealed .header-cta{display:inline-flex}
+
+    /* Aula */
+    .lesson{padding:72px 0 88px}
+    .lesson-head{max-width:1020px;margin:0 auto 34px;text-align:center!important}
+    .lesson h1{width:100%;max-width:1020px;margin:0 auto;font:600 clamp(40px,3.25vw,50px)/1.02 var(--display);letter-spacing:-.045em;text-align:center!important;text-wrap:balance}
+    .lesson-title-line{display:block;white-space:nowrap}
+    .player-shell{position:relative;max-width:1020px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#0a0b0e;border:1px solid #22252b;box-shadow:var(--shadow)}
+    .player-shell video,.player-shell iframe{width:100%;height:100%;border:0;display:block;background:#000}
+    .player-placeholder{position:absolute;inset:0;display:grid;place-items:center;color:#fff;background:
+      radial-gradient(circle at 50% 42%,rgba(255,255,255,.08),transparent 31%),
+      linear-gradient(135deg,#0f1014,#17191e)}
+    .play-mark{width:86px;height:86px;border:1px solid rgba(255,255,255,.45);border-radius:50%;display:grid;place-items:center}
+    .play-mark::before{content:'';margin-left:7px;border-left:22px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent}
+    .lesson-micro{margin:18px auto 0;max-width:760px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55;text-wrap:balance}
+    .lesson-actions{max-width:1020px;margin:18px auto 0;display:grid;justify-items:center;gap:14px}
+    .lesson-buy{display:none;justify-items:center;gap:10px;text-align:center}
+    body.is-revealed .lesson-buy{display:grid}
+    .timed-call{width:min(720px,100%);border:1px solid var(--line-strong);border-radius:10px;background:#fff;padding:22px 24px;text-align:center;box-shadow:var(--shadow-soft)}
+    .timed-call[hidden]{display:none!important}
+    .timed-call .timed-kicker{display:block;margin-bottom:8px;font:700 8px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .timed-call h3{max-width:620px;margin:0 auto 10px;font:600 20px/1.12 var(--display);letter-spacing:-.035em;text-wrap:balance}
+    .timed-call p{max-width:600px;margin:0 auto;color:#4a4f58;font-size:14px;line-height:1.6;text-wrap:pretty}
+    .timed-call .timed-actions{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+    .timed-call .timed-link{appearance:none;border:0;background:transparent;padding:0;color:var(--ink);cursor:pointer;font:700 13px/1.3 var(--display);text-decoration:underline;text-underline-offset:4px}
+    .timed-call.stage-20{border:1px solid #d8dce3;background:#fff;box-shadow:none;padding:26px 30px}
+    .timed-call.stage-35{background:var(--ink);color:#fff;border-color:var(--ink);padding:24px}
+    .timed-call.stage-35 .timed-kicker,.timed-call.stage-35 p{color:#c6cad1}
+    .timed-call.stage-35 h3{max-width:650px;font-size:24px}
+    .timed-call.stage-35 .microcopy{margin:10px auto 0;color:#aeb3bd}
+    .timed-call.stage-35 .btn{background:#fff;color:var(--ink);border-color:#fff}
+    .test-panel{display:none;width:min(720px,100%);padding:12px;border:1px dashed var(--line-strong);border-radius:8px;background:var(--soft)}
+    body.test-mode .test-panel{display:block}
+    .test-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+    .test-panel-head b{font:700 9px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+    .test-panel-head span{font-size:11px;color:var(--muted)}
+    .test-buttons{display:flex;gap:7px;flex-wrap:wrap}
+    .test-buttons button{min-height:34px;padding:0 11px;border:1px solid var(--line-strong);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;font:700 11px var(--display)}
+    .test-buttons button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .post-reveal[hidden]{display:none!important}
+
+    /* Conteúdo revelado */
+    .sales-content[hidden]{display:none!important}
+    .reveal-hero{padding:110px 0;background:
+      linear-gradient(to right,rgba(15,16,20,.035) 1px,transparent 1px),
+      linear-gradient(to bottom,rgba(15,16,20,.035) 1px,transparent 1px);
+      background-size:28px 28px;border-top:1px solid var(--line)}
+    .reveal-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(340px,.8fr);gap:64px;align-items:center}
+    .reveal-copy h2{font-size:clamp(48px,6.4vw,86px);line-height:.95;margin-bottom:28px}
+    .reveal-copy p{max-width:700px;font-size:19px;line-height:1.7;color:#41464f}
+    .reveal-copy .actions{margin-top:32px}
+    .reveal-visual{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px;box-shadow:var(--shadow)}
+    .method-list{display:grid;gap:10px}
+    .method-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--soft)}
+    .method-item span{font:700 9px var(--mono);letter-spacing:.12em;color:var(--muted)}
+    .method-item b{font-size:14px}
+
+    /* Depois da aula */
+    .after-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:72px;align-items:start}
+    .weekday-line{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+    .weekday{display:grid;grid-template-columns:90px 1fr;gap:20px;padding:24px;border-bottom:1px solid var(--line)}
+    .weekday:last-child{border-bottom:0}
+    .weekday span{font:700 10px var(--mono);letter-spacing:.12em;color:var(--muted)}
+    .weekday p{margin:0;font-size:15px;line-height:1.58}
+    .weekday:last-child{background:var(--ink);color:#fff}
+    .weekday:last-child span{color:#c6cad1}
+
+    /* Motivos */
+    .reason-layout{display:grid;grid-template-columns:360px 1fr;gap:44px;margin-top:52px}
+    .reason-tabs{display:grid;gap:10px}
+    .reason-tab{min-height:82px;padding:16px 18px;border:1px solid var(--line);border-radius:8px;background:#fff;text-align:left;cursor:pointer;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center}
+    .reason-tab span{font:700 11px var(--mono);color:var(--muted)}
+    .reason-tab b{font-family:var(--display);font-size:17px}
+    .reason-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .reason-tab.active span{color:#b9bdc5}
+    .reason-panel{min-height:300px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:42px}
+    .reason-panel[hidden]{display:none}
+    .reason-panel h3{font-size:36px;margin-bottom:20px}
+    .reason-panel p{font-size:18px;line-height:1.8;color:#454a53}
+
+    /* Produto */
+    .product-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;margin-top:50px}
+    .questionnaire{border:1px solid #30333a;border-radius:14px;background:#15171c;padding:24px}
+    .question-head{display:flex;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:1px solid #30333a}
+    .question-head span{font:700 9px var(--mono);letter-spacing:.12em;color:#aeb3bd}
+    .question-head b{font-size:14px}
+    .score-list{margin-top:18px;display:grid;gap:14px}
+    .score-row{display:grid;grid-template-columns:150px 1fr 34px;gap:13px;align-items:center}
+    .score-row span{font-size:12px;color:#d2d5db}
+    .score-track{height:8px;border-radius:999px;background:#292c33;overflow:hidden}
+    .score-row b{font:700 10px var(--mono);color:#fff}
+    .deliverables{display:grid;gap:16px}
+    .delivery{padding:26px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .delivery span{font:700 10px var(--mono);color:var(--muted)}
+    .delivery h3{font-size:28px;margin:10px 0 12px}
+    .delivery p{margin:0;color:#4f545d;line-height:1.7}
+
+    /* Diagnóstico */
+    .diagnosis-shell{margin-top:52px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+    .diagnosis-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+    .diagnosis-tab{min-height:76px;border:0;border-right:1px solid var(--line);background:#fff;cursor:pointer;font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+    .diagnosis-tab:last-child{border-right:0}
+    .diagnosis-tab.active{background:var(--ink);color:#fff}
+    .diagnosis-panel{padding:48px}
+    .diagnosis-panel[hidden]{display:none}
+    .diagnosis-panel h3{font-size:38px;margin-bottom:20px}
+    .diagnosis-panel blockquote{margin:0;padding-left:24px;border-left:3px solid var(--ink);font-size:18px;line-height:1.85;color:#343841}
+    .diagnosis-notes{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+    .diagnosis-note{padding:22px;border:1px solid var(--line);border-radius:9px;background:var(--soft)}
+    .diagnosis-note p{margin:0;font-size:15px;line-height:1.7}
+
+    /* Como funciona */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:50px}
+    .step{position:relative;min-height:280px;padding:28px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .step-number{font:700 12px var(--mono);color:var(--muted)}
+    .step h3{margin:48px 0 14px;font-size:29px}
+    .step p{margin:0;color:#4d525b;line-height:1.72}
+
+    /* 21 dias */
+    .days-shell{margin-top:52px;border:1px solid #343740;border-radius:14px;overflow:hidden;background:#121419}
+    .days-strip{display:grid;grid-template-columns:repeat(21,1fr);border-bottom:1px solid #343740}
+    .day-number{aspect-ratio:1;display:grid;place-items:center;border-right:1px solid #343740;font:700 8px var(--mono);color:#9ca1ab}
+    .day-number:last-child{border-right:0}
+    .day-number:nth-child(-n+7){background:#1b1e24;color:#fff}
+    .day-structure{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#343740}
+    .day-part{min-height:260px;padding:28px;background:#121419}
+    .day-part span{font:700 9px var(--mono);letter-spacing:.12em;color:#9fa4ad}
+    .day-part h3{margin:42px 0 16px;font-size:30px;color:#fff}
+    .day-part p{margin:0;color:#c6cad1;line-height:1.72}
+    .days-bottom{padding:26px 28px;border-top:1px solid #343740;color:#c8ccd3;font-size:16px;line-height:1.75}
+
+    /* Incluído */
+    .included-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:50px}
+    .included-item{display:flex;gap:16px;padding:22px;border:1px solid var(--line);border-radius:9px;background:#fff}
+    .included-item i{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:800}
+    .included-item p{margin:0;line-height:1.65;color:#3f444d}
+    .app-note{margin-top:28px;padding:26px;border:1px solid var(--line);border-radius:10px;background:var(--soft);font-size:17px;line-height:1.75}
+
+    /* Oferta */
+    .offer-grid{display:grid;grid-template-columns:1fr .9fr;gap:64px;align-items:center}
+    .offer-copy h2{font-size:clamp(58px,8vw,110px);line-height:.9;margin-bottom:22px}
+    .offer-copy>p{font-size:20px;color:#d1d4da}
+    .offer-anchor{margin-top:34px;padding:28px;border:1px solid #35383f;border-radius:10px;background:#15171b;color:#d1d4da;font-size:17px;line-height:1.75}
+    .offer-card{padding:34px;border:1px solid #373a42;border-radius:14px;background:#15171c}
+    .offer-card>span{font:700 9px var(--mono);letter-spacing:.13em;color:#aeb3bd}
+    .price{display:flex;align-items:flex-start;gap:8px;margin:22px 0 26px}
+    .price span{font:700 18px var(--mono);margin-top:14px}
+    .price strong{font:700 98px/.85 var(--display);letter-spacing:-.08em}
+    .price em{font:700 10px var(--mono);font-style:normal;color:#aeb3bd;align-self:flex-end;margin-bottom:9px}
+    .offer-list{display:grid;gap:13px;margin:25px 0 30px}
+    .offer-list div{display:flex;gap:12px;color:#d9dce1;line-height:1.55}
+    .offer-list i{font-style:normal;color:#fff}
+
+    /* Garantia */
+    .guarantee-grid{display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:center}
+    .seal{aspect-ratio:1;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;text-align:center}
+    .seal span,.seal b{display:block;font:700 10px var(--mono);letter-spacing:.13em}
+    .seal strong{display:block;font:700 110px/.82 var(--display)}
+    .guarantee-copy h2{font-size:clamp(42px,5vw,68px);line-height:1;margin-bottom:25px}
+    .guarantee-copy p{font-size:18px;line-height:1.78;color:#454a53}
+
+    /* Qualificação */
+    .qualify-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:50px}
+    .qualify-card{padding:32px;border:1px solid var(--line);border-radius:12px;background:#fff}
+    .qualify-card.dark-card{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .qualify-card h3{font-size:34px;margin-bottom:24px}
+    .qualify-list{display:grid;gap:14px}
+    .qualify-item{display:flex;gap:12px;line-height:1.65}
+    .qualify-item i{font-style:normal;font-weight:800}
+    .dark-card .qualify-item{color:#d3d6dc}
+
+    /* FAQ */
+    .faq{margin-top:48px;border-top:1px solid var(--line)}
+    .faq-item{border-bottom:1px solid var(--line)}
+    .faq-question{width:100%;padding:24px 0;border:0;background:transparent;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;cursor:pointer}
+    .faq-question b{font-family:var(--display);font-size:22px}
+    .faq-question i{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-style:normal;transition:transform .2s ease}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .faq-answer p{max-width:880px;margin:0 0 26px;color:#4c515a;line-height:1.75}
+    .faq-item.open .faq-answer{max-height:300px}
+    .faq-item.open .faq-question i{transform:rotate(45deg)}
+
+    /* Fechamento */
+    .closing{padding:130px 0;background:var(--ink);color:#fff}
+    .closing h2{max-width:940px;font-size:clamp(52px,7vw,96px);line-height:.94;margin-bottom:30px}
+    .closing-copy{max-width:800px;font-size:19px;line-height:1.78;color:#cdd0d6}
+    .closing-scenarios{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:42px 0}
+    .scenario{padding:28px;border:1px solid #353840;border-radius:10px;background:#15171c}
+    .scenario span{font:700 9px var(--mono);letter-spacing:.12em;color:#aeb3bd}
+    .scenario p{margin:12px 0 0;line-height:1.7;color:#c9ccd2}
+    .ps{max-width:900px;margin:35px 0 0;color:#bfc3ca;line-height:1.75}
+
+    footer{padding:34px 0;border-top:1px solid var(--line)}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:13px}
+
+    /* Barra fixa */
+    .sticky-buy{position:fixed;left:50%;bottom:18px;z-index:90;width:min(620px,calc(100% - 28px));transform:translateX(-50%) translateY(130%);opacity:0;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 12px 11px 18px;border:1px solid #33363d;border-radius:10px;background:#15171c;color:#fff;box-shadow:0 20px 55px rgba(0,0,0,.28);transition:.3s ease}
+    body.is-revealed .sticky-buy.show{transform:translateX(-50%) translateY(0);opacity:1}
+    .sticky-buy span{font:700 8px var(--mono);letter-spacing:.1em;color:#aeb3bd}
+    .sticky-buy b{display:block;margin-top:3px;font-size:13px}
+    .sticky-buy a{min-height:42px;padding:0 18px;border-radius:7px;background:#fff;color:var(--ink);display:inline-flex;align-items:center;font-family:var(--display);font-weight:800;font-size:13px}
+    .toast{position:fixed;left:50%;bottom:96px;z-index:120;transform:translate(-50%,18px);opacity:0;pointer-events:none;padding:12px 16px;border-radius:8px;background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow);font-size:13px;transition:.25s ease}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    /* Motion robusto */
+    .reveal{opacity:1;transform:none}
+    body.motion-ready .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}
+    body.motion-ready .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:960px){
+      .section{padding:84px 0}
+      .reveal-grid,.after-grid,.product-grid,.offer-grid{grid-template-columns:1fr}
+      .reveal-grid{gap:38px}
+      .after-grid,.product-grid,.offer-grid{gap:40px}
+      .reason-layout{grid-template-columns:1fr}
+      .reason-tabs{grid-template-columns:repeat(3,1fr)}
+      .reason-tab{grid-template-columns:1fr;min-height:104px}
+      .steps{grid-template-columns:1fr}
+      .step{min-height:unset}
+      .day-structure{grid-template-columns:1fr}
+      .diagnosis-notes{grid-template-columns:1fr}
+      .guarantee-grid{grid-template-columns:220px 1fr;gap:40px}
+    }
+    @media(max-width:720px){
+      .container{width:min(100% - 28px,var(--container))}
+      .topbar-inner{min-height:68px}
+      .brand img{width:116px}
+      .header-lesson{display:none}
+      .header-cta{min-height:42px;padding:0 14px;font-size:12px}
+      .lesson{padding:46px 0 62px}
+      .lesson-head{text-align:center!important}
+      .lesson h1{font-size:36px;line-height:1.04}
+      .lesson-title-line{white-space:normal}
+      .lesson-micro{text-align:center;font-size:13px}
+      .lesson-actions{justify-items:center}
+      .lesson-buy{text-align:center;justify-items:center}
+      .section{padding:70px 0}
+      .section-title{font-size:42px}
+      .section-intro,.body-copy,.reveal-copy p{font-size:16px}
+      .reveal-hero{padding:72px 0}
+      .reveal-copy h2{font-size:49px}
+      .reason-tabs{grid-template-columns:1fr}
+      .reason-tab{min-height:70px;grid-template-columns:36px 1fr}
+      .reason-panel{padding:26px;min-height:unset}
+      .reason-panel h3{font-size:30px}
+      .questionnaire{padding:18px}
+      .score-row{grid-template-columns:104px 1fr 28px}
+      .score-row span{font-size:10px}
+      .diagnosis-tabs{grid-template-columns:1fr}
+      .diagnosis-tab{border-right:0;border-bottom:1px solid var(--line)}
+      .diagnosis-tab:last-child{border-bottom:0}
+      .diagnosis-panel{padding:26px}
+      .diagnosis-panel h3{font-size:31px}
+      .diagnosis-panel blockquote{font-size:16px}
+      .days-strip{grid-template-columns:repeat(7,1fr)}
+      .day-number{border-bottom:1px solid #343740}
+      .day-part{min-height:unset}
+      .included-grid,.qualify-grid,.closing-scenarios{grid-template-columns:1fr}
+      .guarantee-grid{grid-template-columns:1fr}
+      .seal{width:220px;margin:auto}
+      .price strong{font-size:78px}
+      .faq-question b{font-size:19px}
+      .footer-inner{flex-direction:column}
+      .sticky-buy div span{display:none}
+      .sticky-buy{padding-left:14px}
+    }
+    @media(max-width:430px){
+      .header-cta{font-size:11px;padding-inline:11px}
+      .header-cta span{display:none}
+      .lesson h1{font-size:27px;line-height:1.02;letter-spacing:-.045em}
+      .reveal-copy h2{font-size:43px}
+      .method-item{align-items:flex-start;flex-direction:column}
+      .weekday{grid-template-columns:1fr;gap:7px}
+      .section-title{font-size:38px}
+      .included-item{padding:18px}
+      .offer-card{padding:24px}
+      .sticky-buy b{font-size:11px}
+      .sticky-buy a{padding-inline:13px;font-size:12px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation:none!important;transition:none!important}
+      .reveal{opacity:1!important;transform:none!important}
+    }
+  
+    @media(max-width:640px){
+      .timed-call{padding:18px 16px}
+      .timed-call.stage-35{padding:20px 16px}
+      .timed-call h3{font-size:18px}
+      .timed-call.stage-35 h3{font-size:21px}
+      .timed-call .timed-actions,.timed-call .btn{width:100%}
+      .test-buttons{display:grid;grid-template-columns:repeat(2,1fr);width:100%}
+      .test-buttons button{width:100%}
+    }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#aula" aria-label="Hard Mode 21">
+        <img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDkzMCAyODAiIHdpZHRoPSI5MzAiIGhlaWdodD0iMjgwIj4KCTxkZWZzPgoJCTxpbWFnZSAgd2lkdGg9IjEwODAiIGhlaWdodD0iMTA4MCIgaWQ9ImltZzEiIGhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFCRGdBQUFRNENBTUFBQURienB5OUFBQUFBWE5TUjBJQjJja3Nmd0FBQXNkUVRGUkYvLy8vLy8vLzQrUGp4TVRFcGFXbGlJaUlhR2hvVlZWVlNrcEtQejgvTkRRMEtTa3BHaG9hTGk0dU9UazVRa0pDVEV4TVdWbFpjM056a3BLU3NMQ3d6OC9QNysvdjJkblpqSXlNalkyTmpvNk9qNCtQa0pDUWtaR1JrNU9UbEpTVWxaV1ZscGFXbDVlWG1KaVltWm1abXBxYW01dWJuSnljbloyZG5wNmVuNStmb0tDZ29hR2hvcUtpbzZPanBLU2twcWFtcDZlbnFLaW9xYW1wcXFxcXE2dXJyS3lzcmEydHJxNnVyNit2c2JHeHNyS3lzN096dExTMHRiVzF0cmEydDdlM3VMaTR1Ym01dXJxNnU3dTd2THk4dmIyOXZyNit2Nysvd01EQXdjSEJ3c0xDdzhQRHhzYkc1dWJtek16TTJOalk0dUxpNmVucDF0Ylc0T0RnOHZMeTdPenM5dmIyNit2cjM5L2Y4UER3MGRIUit2cjYwOVBUZlgxOVVsSlNKaVltWVdGaHlzcksxTlRVM3Q3ZTZPam8ydHJhemMzTloyZG5kM2QzNU9Ua0xTMHRWbFpXYW1wcWZuNStmMzkvYTJ0clMwdExaV1ZsL1B6OE56YzNNVEV4VTFOVGJtNXV5OHZMYlcxdFZGUlVZbUppS3lzcldGaFlnb0tDNWVYbFJrWkdpb3FLVjFkWHlNaklSRVJFS0Nnb09EZzQrL3Y3MTlmWEhoNGVhV2xwTXpNei92Nys5ZlgxZVhsNUx5OHZnSUNBUER3ODNOemNTRWhJaFlXRlJVVkZabVptVVZGUkp5Y25JeU1qSlNVbFFVRkJ4Y1hGTURBd1FFQkFiR3hzY25KeTdlM3Q3dTd1K2ZuNWIyOXZIQndjVUZCUTB0TFNYRnhjL2YzOWUzdDc4Zkh4ZUhoNElpSWlOalkyOVBUMGdZR0JUVTFONGVIaElTRWhYbDVlT2pvNjkvZjNHeHNiZFhWMVhWMWRaR1JrVzF0YitQajRRME5ETWpJeU5UVTFXbHBhZW5wNkpDUWtjSEJ3eWNuSmRuWjJ4OGZIY1hGeDFkWFZQajQrSHg4ZjI5dmJUMDlQVGs1T2k0dUxnNE9EaDRlSGlZbUo1K2ZuWTJOamRIUjBob2FHUjBkSHpzN09PenM3UFQwOVNVbEpLaW9xME5EUWhJU0U4L1B6WUdCZzNkM2Q2dXJxZkh4OFgxOWZMQ3dzN2UzdDRPRGc4L1B6NGVIaDYrdnI1ZVhsNCtQajd1N3V3ZVBzL1FBQUFPMTBVazVUL3dEQS8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy93RC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy9rUC8vMEdELzhBQXdBRUQvQVA4QS8vLy8vLy8vLy85dy8vLy8vN0QvLy8vLy8vLy8vd0QvLy8vLy8vLy8vLy8vLzZELy8vLy8vLy8vQVAvLy8vOEFBUC8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLzhnRUFELy8vLy8vd0QvQVAvLy93RC8vK0QvLy84QS8vLy8vLzhBLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL2dQLy8vLy8vLy8vLy8vLy9BUC8vVVAvLy8vLy8vOFQvWkpBQk9qQ29sQUFBUmI5SlJFRlVlSnp0M1hlQUUyWGV3UEZuc1h1V1U3R2M5ZXlpMkR1S29vaUtvb0EwRVFSVVVMRFFMR0FCVDlCVlhGU3dndzFzWUFOUkVSVUxObFRzSGZYc3Z2WjJkeGF3NEx2SkpObVo1L2s5bWZrbDJaTGwrL21ESkpOa05rRHkzU1F6OHp3VkJnQ1VLdXI3QVFBb1A0UURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCR09BQ29FUTRBYW9RRGdCcmhBS0JHT0FDb0VRNEFhb1FEZ0JyaEFLQkdPQUNvRVE0QWFvUURnQnJoQUtCV3luQVFJYUFoKzZ0MHF5SWN3T0tDY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJGcXFnUk92OU5mVCtzV2xWZTRWZ2o4NzlqZnZsYjlqL0o1UDZ2VXVmZWJCNWUrdDVtdWV0TjVvN0JUV2VaZzByM1VPL05uanQwVWNsV21zOFNNNExURG44VXZvNzdncE9PdjZ2djJXVEppa1ZMM0puM0pnV3MxWmhuOTZoWXF1TDJmTGZvOW5NQnE4MVlZV3B3MnYxL2hhOWpwVnZkWlQwcTN0aTZva0wrNTFqVWJkWVdxOXd0WEZISTgyVDE2bWZ0ai9uLzJmdDlvVjl0WW10UHRCYVVWemoyZkxtRVA2TkUvdkh2N0xubG10VEpEK3c1SVRqdGYxUGg2K2gxVmZwa2lXVUx2SC92bTQrc3FMaHZzNVh1a0s3Yzl0L1Mwa1NXT0d5bFdSdXNmSmQ0M2E1dkZMeGEwM2Q4Y0xyVDI0V3ZvOTg0YTBIM2QvZjZQdjlydWJxelIxMCsrR0pyMmNsWEYvb1FCbFJVM0xodTZ3L2x2ZzYvck5EVkp0REVMaTdoS0ZhOWhlUDBTd3RmUjhzSDBpY0ZoeU9yL3pJM0x2aldYbGhFT0FLREt5b2VQSENVdmJTWWNKeHlUbkQ2cjZyQzEyR0ZZK3ZPRnlhN1grOHBRMFpHRmhRZWpvemhQOSsrNVgzdVVzSkJPUExKaHVQYzh3dGZ4enJ2cGsrMmViOEVqK2VNK2QrMlBDTzhvQ1JyTlV1dWVNTHBrUVhGaEdQRTE4R3YvVEZPanBJTGg2UHpjeWVkbzdqcjhTKzJQYlhtVWttZUo3MVhtTnZobE1nU3d1RmZGK0V3dVhCMGMzL25KRGZxNVBSSmFWN2l4b3l1T1Avcm1rdEZ2K1BJT20vVUFWTnFMaFVURGxNNUtIMXk2ZWt4dDh1akpod2Q5eDJtZmJLUG1YUllMcTVGditQSXV2Q2s4TGNsaE1PL0xzSmhjdUZvOTFnUjYraHpSZnFrWkM5eFk2cXVmU2w3dGxRNXFqWjI3dTlUcytlTENzZE9qNmRQcmo2NThGVmt3MUU1OXZ5aEJkejlrb3ArbVhNbGZKNzBtOXNoMXlQQzRWOFg0VEM1Y0d6OVFSSHJHTjgzZlZMQ2wzajFiL09iNWdSblNwaWphcGQ5bFBsNFVWUTRWdjAwOVdlSDJVV3NJaE9PcHIvOVdlQUtMcS9va3o0dDJUdU9sUDZQdkpJNVJ6ajg2eUljSmhlT2dkY1ZzNUlyZTZmK0xHazRqRG50cFJtMXNOYXhaNDdybFRvdEtoeFhINW42cyswVFJhd2lIWTZobDA0NnJ1QTFESmlmL25oWjR1Zkp4SW9qMHFlRXc3OHV3bUZ5NFpqU3Q1aVZERXQvMFYvaWw3Z1pjVm0zaTB1L1ZuUGVBNm1OUUVXRkkzaTcwT3lUSWxmUmNVVjVVM0ZDSXk2OStQRFNQMDlHYkZqUjFSQ09mT3NpSENZWGpoV0wydDFzUWZyOWRzbGY0cWJUZisrdWhiV2FTWGZmVWx3NEpuZE8vWG5TOVVXc29qb2NiWjhzOXZWeTJpdlRhK0Y1Y3VPREV3bEh2blVSRHBNTng3UWppMXJKelIxVGY5YkNTL3l2NXZOcVlhM21sdXZ1TFNvYzV0YjJwc2gzYWYzR2JYdHE0UjlUc3ZyL2VGMHRQRSttREgrTGNPUlpGK0V3MlhBMC9iV29sVXc5SlBWbmJiekV6VEZ6YW1PdDQ0L2R1YWh3dEVoOUwzcGZ0eUxXME8vT0g0cDVBRm5qNzU5Vkc4K1RrMW8rU1RnSVJ6NUJPSXJaZWJyYWJlMVNmOVpLT015U1JSeEU0emZpLzRyNW5HSFcvS0Q2SGYyQVl0WXdmbEF4OTY0eGVId0pYM1ExYnVteWRHMnNOb053bEZ3OWhXUEpaWXBiUzRkYlRLazNuTmF5TzdvVWMrODcyeHB6MklPbGVpeUNSUmR0TkgzUHA5cy92ay9GL0tWT2liOTU2UTIyajZVcEpjSlJjdlVVamlIMjRZcEs3VlBIZXRiT080NEdxZXI0V252Nk5EbmhyczM3TGQ4bXRLVDdMei9PSC9kanZlU2psaENPa3FzSlIzVEhuaG5ueXJlZnU1UjNWZHZLYnpiL2ZDbHk4YmYwVWVzclJYWkRHbkYvYkxTR2RZNWNiUDZjY2Q1eHJMeFozRXJNWDMvODl0dHZQM2RZWjhYTkQ0MjliZksxVnYrK2ZuT0QzeFo4TlBTdnRvY2tYZTNDUFdOdTBEUHkwZUwwczR4WjczdmRHbmE2S3ZaUlRGam5oR2FlTGJTVjc5MjA1Qkt4Sy9BK1Q2TCtXUGpTSnQ5TW03VFQxb25IZy9BOG1SSTdjbUQ0VXZEUk5vUndGTXYzamlPelY3ZmppYmJlVmQxK3NMaDQ2SVRJeGZRN2pxRnJqQTR2RzNOaS9nZFpiZC9uSWhkUC9aZHgzbkdNNjJlUzZ6THdoQ3QvUy9JeVY2M1ZUTjdrNkxPZW1aemdocnM5RW5NRGF4UEt2dmVhdVcwaVN4N2VQV1lOejdhT3VjRzlSKzB3UGU4Tm12NzV3TDR4Ni9BOVQyU1YrdzE1N3BsV1NXN3BlVElsMWl2U1E5NXhsRno5aEtOZmRGU1preTdJK3hpTmU0K1J3MHh4NFVpcHFtcDY0OTV4TjFLdnRmcDM5WW10WXZkU2lRM0hTeTBqRjF2TnRGNExwbTNjWUJveDRYaGt5SUJlTVdzd3B1KzZ6WHZudllFdUhNRTZYMm01WSt5R1ljSVJRamhNSmh6V3Y4UXFuK1Y5akNtelg0eThSeGsrd2hRZmpwVHpEM3cyLzRmNWd0WmErWEMvbUgwdVlzTmhmUTViOXgyemZPUnBkV09udUFlUk54eC9yWDFWbXp4WDE1angzVW41cmk0Z0hOVTZQSHZhaVB5M0lCd2hoTU5rd3JIcXdzaXk3WjdPK3hqVEhtNGZ2cFFlb2FJVTRhaiswSExtZi9KOThpNXdyYWJwZi8zZkJwa0U0UmcxSm5yeFpHc2dncnNPakhzRStjSXhmYzF0NCs2ZXMzL1hQRnR5Q3d1SE1XTXZHNTQzMklRamhIQ1lURGhPaTY2OVc0SjlIQVpkRzduNDJDNmxDb2N4cjFiayticWc0TFZXM1Rzb3owZUIySEIwZkNoeXNjOFZWa21DbldmejhZZGp3c0ErOW9DQStiejZ2ZjNkWXZoeEtWWVUwWGZRYm5tdUpSd2hoTU5rd2pING1zaXkySS9yMWY3eDM4akYxQWdWcFFxSHFicjFXTyt2djhMWGFycU04QWNwTmh6bXpNaU9EZVA3YnZkZTVPb05ZL2RFOVliai9uT1Z4K2RYYnRySGQxWGg0VENteFN2K0Z4M2hDQ0VjSmhPT095UGZ1RG4vclpMZFg0dGNUSTFRWVkwNVdzUkwzTnk2cG0vN2JERnJuWHJHVjc2cjRzTnhUblJRMEhZamRvMWMzdnYrdUJYNHdqRjJtejNpN21xYitzMXd6elhGaE1NY1BtSVgzMVdFSTRSd21DQWMxb2cwejJ5VC96R21IVEVqY25IV1hpVjh4MUd0MDB6UFRndEZyZFhzTU5Tei9TQStITmF4c1B0c0d0MW43c0RZSStROTRiaC85UzNqN2ludzdlcGJWRGpNcE9hK3JWcUVJNFJ3bUNBYyswZS9ERjJZNU9pUXpyTWlGMi9wNEd4NEtPNGwzcW10L0JWZ2NXczFMWTZYeXhFZmp1WWZSaTV1ZEVuazIrRkhING1Nc0N6eGhHT0hKK1B1S0JuNjJ3M2k4dUxDWVc1LzJUUFlQZUVJSVJ3bUNNY20wY2wzdG5neC8yTU1SUGRzVFkxUVVjcDNITVlNMjZPN3RMakl0ZHAvMTZ6NGNCdzhKM0x4c0dtUmk5a1pFL0tRdzlIMDQ5ZzdpcVkxNlNFdExqSWNwc3VvbmNUbGhDT0VjSmdnSE5aa1RDZEd0eGQ0OUlsT245VHJxaEtId3pNTWFyRnJyV29xN2hZYkg0NEJOMFl1dnJoajVPSmxSOGYrWkRFYzA3OC9QUGFPc21ONlNWdXRpdzJIT2V3QWNleGt3aEZDT0V3UURtc3lwbmEzNVgrTWdUZWlYdzYyZktEVTRSaTYvQ1hDMG1MWGFybytJQTBQSEIrT3FUL2syOUZoeFM5amY3QVVqb3NmS256d3dNMmwzZlNLRG9kbmhBWENFVUk0VEJDTzZHUk1GVC9GUE1iQUR1OUVMcTd6YnFuRFlZNXBLK3hlWGZSYTdWMjVBdkhoTUZlZW11Zks1cy9sdVRJZ2hXT0R0Mkx2NWpYMFd5RTZ4WWVqYWwxcEoxdkNFVUk0VERvYzFqNlFTLzJZL3lGbUhCV2RjM1RVeVNVUGh4a2g3QlpWL0ZyTkhPRWZKa0U0N3VpVDU4b2U4ZU1TQ09GNDVMSmJZdS9tOTZTd3Mycng0VENIRHhBK0F4R09FTUpoMHVHd0ptTTZKdGtzc3M2dWxLWGRxcEx5Nm52dVc0NFNoS1BidnU3SCtBVGhFRDhhWkNYNGVDZUVJOEg3bEh3ZWNJK1BLVUU0eENseENVY0k0VERwY0ZqZlFzYnZBeGs0UG5LNCt2aStwUStIdWVRc1oxRUoxaXJ0QkpFZ0hBYzg1Yjl1OEhueFA5VU54eExEWTdmaDV2WFd6czZpVW9TajQyRDNMUWZoQ0NFY0poME9hekttVmpQelA4UXNhMWZLSzN1WFBoeEh1Ny9IU3hHT3ZrYzZyNHdFNGVqMGdQKzZnUW1tN0hiRHNkSHI4ZmZLNjVaajdTV2xDSWY5dlhjSzRRZ2hIQ1lkRG11TW1sOFMvaThlR2QyVFlkaklrbi9IWWN3N085aExTckZXODlRQjlwSUU0YWpjekQ4VXhxUUVJNWc2NFpqeWZaLzRlK1ZsZlVGdFNoUU9JWkdFSTRSd21IUTRvcE14WGZ4T3dpTTF0NHp1dXJUZ3oxb0l4eGFmMmt0S0VnNTNpdTBFNFRBcisvZW8vY2UvdlZmbE9PRzR1cmpKYktwMWJtTi9XMU9TY0ppem5BM2hoQ09FY0poVU9LekptT2E0SDV4bEJ6MGV1WGh6eDFvSWh6WFFXSW5XYW9aZVl3OEpsaVFjcS96bXZXclhSK1B2N29RajM4K2NkdFVsTzF6ZTZ0TTN2N3g5MXQxNU5nUGYxTjlhVUpwd3VQdHlFSTRRd21GUzRiQW1ZM293YnREZExPdlF1S21ISlB1T28rdUdOZWY3dnJXd2E5NmZVYldqUFE1cGdyVWE4K2t2UytZZkdjRFpjSkFrSEJ0NWo2MDErODN3WHBWamgyUEVDOTdIT0hiaWFUVkg2bFROOE0vRHNMTzlINGp2ZVRMKzg5Q0Z0OWY4ZHVlOFg4dDIzM2EwdGNUelpPcVlaT2pvbFBXR2hTOHhXSEhKMVVNNHJGOHZTZDUxQnl0cUgvbUs4YloyeWQ1eHpOc25jckZKaDYvYTVQbVY2bndia1d5dHhweHk1RitiK2xkckhYaVNMQnl0bi9WZWRVNkN5UXZzY1BqM2w3RVBiNzkrb1c4SW9wRVhXUXVTUGsvK3FocDR4Mkcrbisvc1MreDlNbTMvcm44ZGVmQ09vK1RxSVJ6V3hza2tMNkhBM2RIRHJEcThYa2c0cWcwODJ2OFNkNTZaaWRkYS9YYi85dXZjaFptcmxyU09vRXZ5dHg3di9TMzlRclA0ZXp2aFdNczNEVTNQbGV4eDJaZTZ4ZmRKNGV5eDBjdUs1OG1BKzBkNmo1TloxNTZma25DRUVBNlRDc2NWcDBVV1ZDYWVtL0QxNkZoekhWOHJNQnhteW5qdnkvWlEreHBGT016ZzV4OFNscVk5WkkzMGx5UWNOMzV1djRIUFNqU0NpUjJPZmU2VGIzZjdjMWM3eTJhMjhxelUzZ3RXOVR3NTZrdmZoeVZucDFUQ0VVSTRUQ29jMW1STWE4Y1AwcDloZmViZmFrR2g0VENQanZMdE83TDZMOVlDVFRqTWlNZG5TWXVycldVOWRSTzl6N0ovdmVkY2tIZms4UXc3SEw2ZFRZVzlLS3FmRGQvS043WVBJZFk5VDZaUDl1enkzdG4rZHlNY0lZVERwTUx4dDhqbEJKTXhaVm1UTWoxeFZNSGhNRGR1dDdIbmg2eG9iZjlRaGNQY2MvZzM4bXBidkJxOW5DZ2NwL2syV1d6eXF1ZUtNQ3NjOTNybVZscjlYT200ZHQ5aCs5WVJROXJueVpyaTBBWFZsclVHWUNNY0lZU2pXczlGMFMyZTBqTzB4d0x4NE84MWZvNWNISGxMNGVFd2E3OG5MYTEyd3FUb1pWMDR2RlBFMkROR0p3cUhOWXRFRGQrbmpnZ3JITk9jbmRBQ3pvYVN0Q25IeUFXY2RFTDBzdko1OGxmN0tmTHRUN1FHR0NNY0lZU2pXcyszb25QSi92My8zTHNjODVtNFFYRDJWNUZoK0liZlVVUTRIdm5JODBXZC9WdGVHWTU3WnNxN3M4MzhJVHFFWUtKd3RIekpjMFdpblcydGNKdzdSTDZaczJ0R3dQY0FyNHB1ejlFK1QzenZsZXh2UndsSGlDNGNuYjZQdjQza0FjK3dzcks2RDhjZDBWK2oyODUxNzNMZ0ovS3dFZGEzSXpkSFIrWFV2Y1I5VTY5ZVpvM25yUXlIZHppenU2SmY1U1FLeC9tZUdaMG56MDJ5czYwVkR0K25oSlBkcjBaVFZ2RHNSSEo1WkFjSjlmUEVONCtVdlFzWTRRalJoZU5ZYVR5cUJPUzNuajUxSDQ2Vm8ydnVlTE43bDYxYXkwZmFXKzluVi81UDVLTHVKYjdlZkhHeE0wYW9OaHkralo3V3NEeUp3dEgxVUhtazR6OThIMkVpckhCNERxbDN2cGJNNkRsQlh2N0IxcEdMMnVmSi9SL0wzNFczZlNKNm1YQ0VFSTVxUFplTG40enBrclhFY1lQdFNabEdqWXhjMUwzRUx6OUtYT3hzTnRDR3czZEF5SmhSa1l2SjlsNjVicURxWjBSWjRmQWNoTnorWWZuZTU4cy8yaDVlU1AwOE9lSWFjZkV6KzBVdkU0NFF3bEd0WjV2NHlaaW1yQ2x2QWJBbVpYb20rbWxEOXhKL1hCNWQyemtBVkJ1T0pmOGpMN2ZHRWtnV0RxczJXUWttNlRaT09GNlI5M3A3ZW4vNTNnTThtNEt0amJmcTUwa0xlUmE1dnRhWHBvUWpoSEJVdXlzNmlwUzRLOU5kdmVSSklhMUptZWEwaWx6VXZjUjdYeWt1TnJ0WlkxWm93N0hvVjNtNXRTTkhzbkJZYjdHeXBPK0ZYRlk0empwZHZKVTF4MDFPYXY0SmlmWDNVRDlQUEhOaFdFYytFbzR3d2xHdEt2cFpYNXFNcWZwanQvelZwZlY1dkVsMGx3dmxTL3hNZVlkdWUwdUdOaHdUZXNyTDEvOHVjakZaT0t5M1dGbWVOdzhXS3h4dmJDamVhcDk1bnJ0ZkoyOTJXaS82bmIzNmVlSTVOS25TR3RLTWNJUVFqbXBqb3QvS1M3K0Fxai92ZXFZYmkyNEJlRFQ2Z1ViNUVsOWUzbEdoMWZQUnk5cHcrSUswNmVlUmk4bkNjYXY4d3owUDNXS0ZvODNkNHEzc3YyL09jZktXRyt2dm9YNmVyUGFKdlB6bTZQZkFoQ09FY0JqbmJZSzA5WEt2RjgzcUg0bnJzaVpsaWxLK3hOLzhwN2k0NkhCNC9obXNHUjJUaFVQZTVERmVtay9BWllWajdyYmlyYlRoc0laVFVqOVBwUDEyVXF6OVE1S0Y0L0l6UFQvRjhqZDdkei9DNFdyZzRhaUkvcDlKQjFCcytMVzVVLzR4NG1FVldjcVhlUGRyeGNXMUZZN3Rvcy9kaE1jRTM5ZE5XSmh3UGdrckhBbi92am1lY0d6MVVlUml5Y0p4OFlqSXhXVGgrTlVlSHlrcHd1RnE0T0dJZnI0UUoyT2ExZGxNRkNjcUZjYThER25ZNGJDZThnbkQ4YUEwaHNWYkd5UzZiM21GNDlyb1FkS0VJNFJ3T01SZm5sZWVhc2IrSkE2Mll4OWlGZEVZdy9IS0hzTENkZlBsc3diaDhDTWNycklLaHpRWlU5WFoxZjkrKzArWGJ0N1JPOTZGYVp6aEVQOHpQYnRDMkFpSEgrRndsVlU0cE1tWTBuWG9lb043aGJFblpZcHFqT0VRcGtCS1BQUVI0ZkFqSEs2eUNvZTBIL1N3eTZ2L2FQYUNlSHRyVXFhSXhoaU95Y2U3eXlhczJTYTZZS3E4eHdYaDhDTWNycklLaDNSOGVQb3Y0RGs0MDVxVUthSXhoc1A2WDBtN3hKNU9yYS84TnlFY2ZvVERWVTdoRUNkaldqTzFwV1hrTVBjSzQreEZFRkgyNFpnbWJFSzUxMzAzY2FFMWxvNTVzcVg0RXdtSEgrRndsVk00eE1tWTBnZlBEeDhoWE9OTXloUlI5dUVZOEtNN1BOYS8zZDIybnQ3T1dyQ0RQTjRQNGZBakhLNXlDb2M0R1ZONnFKZ1JyNHZEMm5iSXMwR2hOT0hZeTlvSHZpN0RNZFE5QmtYWXgzcHp1eE5MeWxORkVnNC93dUVxcDNCSVJ6eFZ0azd2SW5iSVZIRmw3WjE1MzNOS0U0NWRyZTA4ZFJtT0Y5MER6b1E5Vng2d1A1bGNZWDkyQ1JBT1A4TGhLcWR3U0MrZnpOVGxlOGtqVStXWmlMazA0VmhpMmFMV1dsUTQxdnlYczB6WWM4Vis0SlVMenhGLzRtSVFqclUzOS95VWpHWEVRYThONFpBVUdvN29rYWQxRTQ3SGRuR1haYjdHa1Bid01Ia25ZaTVOT0Rhem50aDFHWTRPd2tEa0s5alA4YkdyV04rWGRwb3RqOXF4R0lRanpuUE5QVmNRRGxjWnZlTVFKMlBLak4xM2MwZjNLcE0rQU02bk5PR3dweVNveTNEY0xBeUg5dmZmclFYT0Y4b0hQVVU0UEFpSFFobUZROXgwTWowWUNjY3pITFozM0psU2hjT2EyYlpPdzNHak1QQ1pOZVJnZFErMnRoWTAvNFJ3ZUJBT2hUSUtoemhkV0diUGhmNzJ2T2dCYTFLbXNOS014ekhMR2pLdlRzTWhETzFsRDU1c210cTdza3p2VFRnOENJZENHWVZEZkJKbDUyQ1VoeDIxSm1VS1U3N0VENVhuRk90bGZaOVdwK0hZK2xsbjRUV0RyUVhPNEdnUGRDVWNIb1JEb1l6Q0lRMjYrMzUyOU9JRDVMM0xvNU15aFpWbXpORXp4eFcxMXVMQzhjU096c0pESHJVV2RMdmVXbkRYVVlURGczQW9sRkU0cE1tWWNyT1g3U1R2SkdwUE1scEQ5eEwzakw5bno0MWF0K0VRL3Mrbi9oQWRVODk1SjlaNTFoS0V3NE53S0pSUk9LUlBJN2tuc21mS1FzK01BVWI3RXU5MG83ajRQWHQvN2pvTngyM3QzS1duUnVkeHVMR1RkZjB6K3hFT0g4S2hVRDdoRUNkajJpaDdXS3k0TzdwM3hnQ2pmWWxQNmlJdWRwNlpkUm9PS2FWem91dTcxcDdrcnVWTGhNT0hjQ2lVVHpqRXlaaWV5dTRFNVhsTFlFM0tGS0o3aVR0SGZBVHN5ZXJyT0J6WEhPRXMzZUxUeUVWbjB2a052aVVjUG9SRG9YekNJVTNHVlBQTy9LOXp4R0ZIZlpNa2ExL2lubU5oRnRoRGpOVnRPSmI5emxsNllIUXJpck5IN1NxL0VRNGZ3cUZRUHVFUVp3TjhkL3ZzT1huWVVXdlgrQkRWUzd4S0dGckxTRE1nMVcwNFZ2elNXVG9qK2liRU9ZYm4rVmFFdzRkd0tKUlBPS1RKbUQ3YUtuZTI5VDNpdmJ5VE1xbGU0dHMvSmQ1NFkrZUZXN2ZoY0FicGNRNElQdERhejJUcUQ2Y1FEaC9Db1ZBKzRaQW1ZenEyWmhpT3JlUzl5NzJUTW1sZTRzZi9LYjRzcHY3WC9nYWhqc054bnIyN1Y3Vzd3M1BNUFBxSXRmdkpxeTBNNGZBaEhBcGxFdzV4TXFaZDNzeWRGZDYycDNnblpWSzh4QWQ4S0I5dmZmQ2NZdFlhS0NvYzVyV05uY1dSbmVESG5HaGRPMnJNNGhTT2VmSW56Snp2b3NkQUVnNkZRc054VitSSVZkOFRvbzFuenVCcXZlVmRNYjNoRUNkaldxdG1FMjNmOGVMZHZKTXlKWCtKRDcvTWM0enRVa3NYc2RhTTRzSWg3Qk8zeVJlaEM4NC9TblZIRjZOd3hMRytFQ0ljQ3JYN2prUFBHdzVwTWlaei9VbTVzNmZJNDlONEoyVksraElmOFdaSGFXTEZhalArNXg0SVU4ZmhFUGJDMysrWjBBWG5iZGlTeXhDT0dvUmpNUWlIT0ZUUDJXTnpaNTJQOHhtK1NabVN2Y1R2T2FEZDNaNEhKTzdPWHNmaEVENmZmUmgrOWp0Zi9BeVpTRGhxRUk3RklCelNaRXlWelVNN1J0b2JFREo4a3pKNVh1S3YvaWQ3cnNuZk9xeTl3WTdpM2lGcCt6K2RmSzIxRlk3ZjdIRjdqT2t4TURSUGQ0K0oxclhMTGtFNGFoQ094U0FjYllUZi9KSC9lS2tzMVQ3ZVVsNmY1eVdlV05laHJZV2xkUnlPUHhlNHl5ODl2ZWE4UFlwSWFwZ0J3cEZET0JwL09PNmZJVHd6STVzMU5ucGR2R016ei9lenhZYkRHV3NyMzFwckt4em1KdmY3bDV2NjU4Nit2Sm53T0FoSER1Rm8vT0Y0ZkNkaFlXUzhxNkdqeFR1MmZVSmVZWkhoMlB3enpWcHJMUndQNys0c1g3OW1QL1RqcTZ6clV0K2NFbzRjd3RGUVJ6blg4NFhqVHVtcDlWSjR6cERYTnhMdk9NTTlFQ3l0dUhENFhrQjFIUTVoczhyZU5STndIMm52YjU4YWxKMXc1QkNPeHYrT1k2MzNoWVdSL2NuRncrNzlreklWRlk3V0l6MHpQZFYxT0ZiKzNGbmUvdUhjV1djR3E5UkI5NFFqaDNBMC9uQ0k4N1d2R0ptYVM5aU5Nc1V6S1ZNUjRhaTYwanZyUWwySDQ2akxuZVdoY1ZaM2VjeTZMcldKaVhEa0VJN0dIdzVwTXFheFowY3Vublc2ZXhQam5aU3A4SEM4UDhIL3Q2M3JjRng2akh0RnpUaXJ6ci9JeFNNSVJ3amhhUFRoR0xGakczZGhic0RSZ1BQN05lQ1psS25RY0V3ZDM4SjNwTDUvcmJVV0RuUE9LYzRWZzNLdmVmdks5QkNwaENPSGNEVDZjSWlUTVZuVExZbGZnM2duWlNvd0hMZis2TjhsekwvVzJndUhNTHI3MnRsOTJKd3hTWnYrYWdoSENPRm85T0VRSjJPS0hNOGxiRU1JZUNabEtqQWM3N2UvUTlvd0hMUFcyZ3VITUZKSWkxY3pad1pWV3Rlc2x0cGZqSERrRUk1R0h3N3hDWFJIbjhqRmdlZUxkL1ZNeWxUd2R4eXpqNSs1dmZmS09nK0g4QTl6ZEhiZ2tsYzNzYTVKdnhjaEhEbUVvOUh2eHlGTnhtUk9qeDR3Ty9nOGVaWHlwRXhGYkZVNTVBaDVsaFgvV21zdkhNSm9BcmxKcWhiWWYvSGhseG5DRVVJNEd2MDdEbWt5Sm1jYU5XbU1NT09ibEttWS9UaUczdjZENTVvNkQ0ZVVnYmQzOGp5WU4zZngzTU1RRGtNNFZNb2tITkprVEYzdXR4WThMeC9QSmsvS1ZOeWVvN3NNbENlbHJmTndUTGpISGFsb1NPYVlXUHU0d09CZ1lzS1JRemdhZXpqRXZVTGYydGxhMFB3NWNaWHlwRXhGSHF1eTQzeHhjWjJIUTlwNzVjVzkwaWVUNTFvdjV1QjFRamh5Q0VkakQ0YzRHZE51OXVHd0szMGgzTW8zS1ZPeFI4Zm1Obm9tV1dzdGhrUFlySklaaWZXUGhkYnk0R0Jpd3BGRE9CcDdPTVRKbUp5WDdra1hpS3VVSjJVcU5oeEREK3lZZksyMUdJNVYzTU4wMDd0ckdIT0NQWVJSY0REeFloU095ZTZSUEJHUFJjZGllc3EzdFl4d3VHcDNxOG9rK2NORHlrYnlqbFJ5T01USm1KejVGODhmS1A4b2NWS21Zc05oT25Ydm5YaXR0UmdPb1piZGd5bG1uS1JNNzVuNmN6RUtCOU1qeEd1WTd6aEtOVDJDTkJsVFpLaXJ0Q2x2eU1PT2lwTXlGUjBPOGNOSzNZZGp4bjd1VmNFUTlOczhZeTIrOS9EVW40VERoM0FvbEVjNHBBMnRRMXZaTTdHTHd3c2F6NlJNeFlkajlWSHVjU0oxSDQ0SmE3cEg4WHl3ZGVyUFZ6YTFGZ2Z2dkFpSEQrRlFLSXR3aUpNeGRaanRMUHAxa1hBN3o2Uk14WWZEdkx4bjByWFdZamlrelNwQkthKzBQa3BsdnVzaEhENkVRNkVzd2pIa1hHRmhrK1djUlJ1TEcxN05rd2NLQ3owdjhROC96Sno1NWVXTEtwcGVmL1V0NHEwQ1I3dnZnK29oSER1Nll5T21Temw2cUxYMG1lQkREZUh3SVJ3S1pSR09veThURmk2eHJMUElPVGdqSUU3S2xPd2wvdkpOYjhtekxxUlVyZXA4RzFzUDRWajFVK2VxOVBSMVRtMzNDcjVoSmh3K2hFT2hMTUx4enplRmhaY05keFk1aDRObTJQdW1weVI5aVUvcGY2TDhsYXVSOWttdGgzQTRXMTJONlhaZjlSOXZiV0F0L2VjMzZSUEM0VU00Rk1vaUhPS1VLV2U0aDNjNUExQmtuRERKWFpiOEpYN3RNcDQ1SUxOdi9ndGFhMGJ4NFhBbWxqYkJTRi9yMnQvc3ZMNWIrb1J3K0JBT2hiSUloN2kxNUcxaFhBeGhQS3dVYVZJbXhVdjg5Y3ZsVjRXcDJ1SFF3dGNhS0Q0YzB1Qm9EM1UwcG9YOTVmSHpyZEluaE1PSGNDaVVRempFeVppNlN1OUM5aFAzTGhjblpkSzh4SjNSd3JPY0EyL3JJUnptYis3WWlKZWM1WTdTV3JWQ1VGWEM0VU00Rk1vaEhPSmtUS0ZaQUdycytxaTRVbWxTSnMxTGZHemJmNG8zdHNjZ3E1OXc3RHpIdVc2Yjk5MzlPL3BPQ1U0Smh3L2hVQ2lIY0lpVE1iVitOdS9qaTVBbVpWSzl4RmZ6ekNNNXl0Nmp0VDdDSVR5NGRvKzU0NTluTjBvVERoL0NvVkFPNFJCSElkNVVPb0JwMU1ueVNvVkptVlF2OFNZajVTTnJuT1BuNmlNY1Z4L3BYUGRxQy9jSmtkME5qbkQ0RUE2RmNnaUhPQm5UUlNPRmhiL0xjNmhJa3pMcFh1TENZT0pwSzFyN3F0WkhPRTQ1eDdtdTZ1d0s1NERpVi9ZSVRnbUhEK0ZRS0lkd1NKTXhpWnRZVGU4cjVSOG1UTXFrZTRrNzJ6WXp6ckYyb3FpUGNJeFl1NWR6NWRKTGJmNlN0ZWlLMDRMVHhUY2NsNS9wK1NrWjI5bER5bVVSRGxlaDRiZ3I4bVN0MVhDSWt6R1pGY1QvelN2NmlHc1ZKbVhTdmNSbnR4QVhaL2VOS0hDdHBpVGhrTUw2OFpiRDdIZGsxMlYyYzExOHcrRTVsQ2tlNFhDVndUc09jVEttOUtSa3J1VytGUmNMa3pMcFh1TFNYbFlwOXI2ajlSSU9ZUXE3WnAvTTNUYTZKRGRMQk9GUUl4eXVNZ2lIT0JsVFIzbCt0aFBsK1dPRlNabDBML0VwYytRWGhuM2diYjJFWS9XUG5Dc1Bhci95NFo2SFFEalVDSWVyRE1MaGUvSW9DSk15S1YvaSswOFhGKzlyRFhGV0wrR1l0WmR6WlllejdIMWYybVJucGlFY2FvVERWUWJoRUNkalVuSW5aVksreEkrNFJseHM3MXBXTCtFUWhrd2N1bzY5WVhyejdFQ0NoRU9OY0xqS0lCemlaRXhLN3FSTXlwZDQ2M3ZFeGZaUUgvVVNqa2N2ZFVjTjJkZmVoL2EyN0FjK3dxRkdPRnhsRUE1cE1pYXRvZytBMytjK2NmRjcyeFcxMXRLRXcxUU9jcTZkWmgvUm05dHdURGpVQ0llcjRZZERuSXhKeTUyVVNma1MzMXZleG4rK05WcE8vWVJEM0VQT2NuRjIyeFRoVUNNY3JvWWZEbkV5SmkxM1VpYmxTM3dQYVJReFl3Ni90NmkxbGlnY2Ezem9YbTJwMlh4Tk9OUUloNnZoaDhNN1RZN0c3VWZaUzBvVER2dnd1Zm9KeCtYTzM4NlJtYVRKRUk0Q0VBNVh3dytIcys5MFFlNnlkOHR1VE9GNGFYUGY2bk5XVzVBOVJ6alVDSWVyNFllanE3TkJwQkRCVkNNaGpTa2NqejdpSFJZMWE1MGZzK2NJaHhyaGNEWDhjTHo1ejBRUExZWXp0SEZqQ29kNVkwUGYrck5xNXNza0hHcUV3OVhndytFNzRGWEpPY0s2WVlkam0rZ1FKSEhoaU4rc1VqTmZacU1JaHpWdVBlRUlJUnhwNG1STWVzNmtUQTBrSEZlNWg4U25iQjZkTURvdUhPSlFSMkdoK1RLVGhhUFhWZUt0dE9Hdy9oN3E1OGt5Mzh2TDc0bE8vMW1hOFRpeW5NSHlDWWVyd1lkRG5JeEp6NW1VcVlHRTQ3ckR4Y1hXT0FCeDRWajZCOS82TTBMelpTWUx4eUZUeFZ0cHc1R1p5eVZML1R6eEZORitscFEySE02ZVE0VEQxZURESVU3R1ZBQjdVcWFHRVk2WE41T1gxM3lYbVJZWGpuN0NqRk1SQjgvSm5VMFdEczk0OGZzOUk2Ly9VV2xlNzJwci95ZHlVZjA4MmVoMWNmSE1ydEhMaENPRWNLU0prekVWd0I0eHJHR0VZNFl6cFZQQW1zODZMaHhUM29qWnJMTDFCN216eWNKeGpUQytzNGtFS01JWHdDV1hpVnhVUDA5MmVGSmNQUG40NkdYQ0VVSTQwc1RKbUFwZ1Q4clVNTUl4N1FCNStkem9vR2R4NFRDSFgrZjVBUmtqYWo1SkpBdkhBeTNGVy9XVVJ4Y3dseHdyTHg4WWZWenE1OGtybTRxTHgxdWRKQndoaENORm5JeXBFUGFrVEEwakhNNlF3aG1QUmIrZml3MkhNMjJiNWQ2YXIxS1NoY1B6cXo0N09ZdnRQczlmY0ttbEl4ZlZ6NU5ENVo5blQwdEJPRUlJUjRvNEdWTWhpaHc1bzViQ0lZejZselp4U09SaWJEaThjODFsaEVaalR4YU85ZDhXYnpYMUIzbVN6V011bFgvdUMzdEhMbXFmSi9PMmtwZmJydzNDRVVJNFVzVEptQXBSNUV1OGRzSXhaWXI4RzNYcVA2SVR3Y1NHSSthZjZmM1FnWUxKd3ZIMGR1S3R6SlMrNHVJdFhwUnYva2gwY2wzdDgyVEZMK1hsMWxaZXdoRkdPRkxFN1hHemYvR3UxcGdmK3NncmJ0RTdjcmxCaE9PRUMrWGxIYXhQSHJIaHVLV0R2S0tNd3g2c09aOHNITUlzVDJuVzl0VXN6NjZyczYySHBYMmVuQ1VQSWV0TXFrTTRRZ2hIaXJoUHBEM1NaNFE0dHJGeEptVnFDT0dZOE9qMThrODc0S25vNWRod1RINDM3MmFWdlVKdkNKS0ZRNWpsS2EzZnJkTFNQeGJLdDdhSEsxRStUMFlPazI5dW5tOFZ2VXc0UWdoSGlqZ1prelBYYzVqdmM3RTFLVk5EQ0lmdnExSG5MeGdiRG5QZ1haNVZwWVgzSjBzV2pnbjMzQzZ2Nm9GT3dzSXRQZnVGMmVNbjZaNG5GVDk3WHJHVmUxaFRlaEtPRU1KaGZKTXhpZE0vWnZuMmFiQjJ4bXdBNFZqNlZOL2JCUHZmTFQ0YytUZXJ6T3BjY3o1Wk9Md2p2ZlpzUHRwWjlrZG5kOURUdE95MGsxbXE1OG5vK1JQbFc3di9uSVFqaEhBWXoyUk1adW1sdkt1dGRtdDdjYkUxS1ZPOWgyUEtxWDNsbWF5Tm1mcUNkYVJJZkRqV2ZzK3pyclJiUXJ0WkpBeEhzeGM4NjlyTU9lN3M1U3A1Q0hqM3ExVE44MlRPZWQ0OWVMYTF0eUVSamhEQ1lYeGZXQncvMmJ0YTQ5M1gxSnFVcVo3RDBYdm96OXRLdDB5enZ4cElFSTRIOTNSdmtWTzFRbWdqYXNKdytDYTlOR2JyYS9lTlhEN3ZDYytNM0diYWt0RmowUlRQazA2ZmJ1L2ZnV2VRZmVndTRRZ2hITVp6V0xWbitzZXNqWjJCaWRPc1NabnFOQndkMXd0ZjJ2U2lWYmIvZTc3OTJyYjgyRm9RSDQ2OCs3dEVkdHRLR0k2S1k3MlA4S2oyUFdvdVRGanRxejYrRzlyN3puaWZKenRFc25mNzM5YzUwcnZPYXBVLzI0Zm1lSjVNUjYyWVp5MWg3U05ialRrNk5vRUdIZzV4TXFhYThUTkZUKzRnTDQ5T3lsU240VkE2eS83UGpBOUgzajFzandwLzBaa3dITDY5dlZPbVhuZkVtOEdIcWZPSHZwZG5ES0UzN0VQZmZNOFRuWGJPWG5PZUoxTml2U0pmTGZPT0k0RUdIZzd4V0t1YThUTkZYU2JKeThlTUNsOXF3T0d3VjVva0hIazNxK3c0UDNRaGFUaDhPMThGcG5idjhjUHdzUjM3NUx2TjBINzIyNkRTaEtQL1RmWVN3aEZDT0l4bk1pYnJtSE9iODA0elk2M0k4NkVCaDJPRGIrMGxDY0t4NTRQdVRiSWlHemVTaHVQZVoyTUhNbzF4eldCN1NVbkNNZTByWjdkM3doRkNPSHlUTVowVzgvUTdSejZlSXZwR3BUVGhzSGZ4TEVVNEtwYy8wMTZVSUJ6cjVQa2k4TGp3cHRXazRjaWJva1RtT3B2U1N4S09uZHpEYUFoSENPRXdabENsZEp0M1BGOWlaSGwyVkk1TzE2Z01oMmMvaVlybG81ZExFWTVkMzNBV0pRakhrVmY3MXhnNVpDNXhPSHE2czNHcWRPdlMyMTVVaW5CVXJ1bk9zVTA0UWdpSFp6SW0rNmdUeDY3MmhNdVpueGladGtnWmp0MGZGaGNmWXYyb0VvU2pzdWtRWjFtQ2NFenM0ZDRrSTdvOUtYRTRURGZQRHZFSldZUDRwSlFpSE5JM1hJUWpwR0dINCtUSUw3amFDb2M0R1pQOVc5N2hPOFk4TWltVE1oeWU0OSs3V1hOUmx5QWN3anZ4Sk9HNCtCM3ZacFhvc0RmSncxSG9jeXJROThpRG5HVWxDTWZzRDkydWxqZ2NiSTVOb0dHLzR4QW5ZM0svYzdOTTZpSXZqMHpLcEF6SGp2WXVDWUhPczZLWGl3OUh0MTJGbldVVGhDUFBVR2x0SXR1MGs0ZkR0TDdIdDhvRUxqbkxYVmFDY0lqZmpQT09JNFJ3ZUNaanNuWTRQdlkyOCtkUGtTVy9SdzlueTRsTXlxUU1oN2hEU2ZYbml2T2lsNHNQaC91Tm9ra1dqcFlQK0ZZWkhiMUNFWTU1bjBzUEpwbGo5enJPWFZoOE9OYTRkMTloS2VFSUlSeWV5WmlzM1lwU2U1aEh4NHZ4emVFVTJRTlpHUTdmb1JzVGhrWXVGaDJPRnE5S1M1T0VZOTEzZk91TURyZXFDSWQzUHFSNHM1KzlRRmhhZERqR2poWVBLQ1ljSVlURE14blRhN3RITHFhbURyS09lanZvRG5IZGtVbVpsT0h3ak5OdmZkZFRkRGh1WGNmOVlzQWtDOGVvazMwcmplNklxZ25Ib3djN3U1UWs1RXk1bVZac09LcStrVmRBT0VJSWgyY3lwbkdSM1J3dTZsLzl4MVBSd2NLWGs1L3VrVW1abE9Id2ZlRnFEYXBaWkRnT21TUFBVcGdrSEZYSHU3Y0pSQ2RhMVlURExPb2p6K2dXSjdLdmFvMWl3N0d1WitJcHdoRkNPT1RKbUt6SmVNNVBiZFczQnJSYjlqdjVaNFluWlZLRzQ5Ui95Y3VIUk1lTUtDNGNNOVlVWDczSnd1SGRyR0pOUXFJS2gvbmpFR25mM1RpakRwQytpU2c2SEw1dUVJNHd3aUVmSUc4TlhuZlU1Y2FabWREMzBUdzhLWk15SEw3UmdGK0t6ajlTVkRqbXRmYk5pcHdrSE43Tkt0RWQzNVRoTUVQbTY4dHgxT25TL2plbXlIQk03ZW51R0pKQk9FSUloL3hTYVAxczVHTDZyWUExMW9adkRPRHd0NFRLY0N6bE9UNG1ORVZhbnJVbTB1SVY3N01xVVRqMnZsKytzelYrbnpJYzV2RTMrdmdlbGtmYkRrTTkxeFFUam00YmovZGV4MzRjSVlSRFBsVGNHb0VxdmJuRE9qVHVwYzNsbnhtZWxFa1pqdDRieXNOMXZiVno1R0xoNGVqYzFEbm1zMGFpY0hpbVFySDNmTkNHd3d4L1FaNUgxbWY3YzdyN3Jpb2lIQWNmM2N0L0plODRRZ2lIUERqTmJkRkJ3WUtkbE9idkdGNDJlYTc4Y1Q4OHNJeDI2aVRQWWVzei80eThTZ29OUitVZHJmTjlDNWtvSEROYnlYZTJqZ2xVaDhQY1AxanhWTHo5aFR4eEtEZ2N4OXk0ZEw2ckNVY0k0WkMvVnpnbitqbmt0WTFUZjM3U0xMTFE4M0UvZkJDOE5oeGJ6Wk9YaHlaWDlLODF4c3hSQjQ3TmU0TkU0VGkrU3I2emRVeWdQaHpHOVB3Mjd5RHFJYTBQY1E3dERTa3dITzNYN3lsLzJacEZPRUlJaHpnWms3azRza3YyK0dBNDNPazlJN2Z4dkg3RGg4ZHB3K0g3M21Tcmp4TDg0SHlxL3RoLzc3aG5acUp3akYzbGNQZFc3akdCaFlURFRIbHB5Njc1cnM5NDVuOGQ4MTVmU0RnNmZ6bmFNOEJLRGNJUlFqakV5Wmlzall1Wlg3UE5QNHdzM1VUYy96SXlLWk0ySEdNM2tYZS9IcmxaZU5kcWJUZzYvcnpyT04rbWxKQkU0VWp2Q3VleWh3d3BLQnpWTDU0eDdmSU1FcGd5OUswZC9GOWZCclRodVBIdTkyWjhrLy9OUmhyaENDRWM0bVJNMXNiRnpNZVpKc3RGbGw1d2t2eERRNU15YWNQaDNXZ1IrYXlTTEJ3OUZsWTBhenZ5bTYrK2ZmQ1FKRGRQR2c1NWVIZnJuNmJRY0ZSN3ZmTU85dkRpT1ZQdnU3L0tIU2ZEbGl3Y1F6OWJZc0dxZllaOWMrQnVLM3EvWm8waUhDSGxGSTc2czFxd29jUjlGYUUySEg5THM4MmM5elU5ZnYyazJkMEozamVWQzhLUlFMbUhZNGNuZzlPcnZVZHFvTVJHZjdQbCszY3V0OHd5eS82NWNPSEMvMVI5dnQvck1RTXIxWUpIRTN4K0tSamhTS0RjdzdGZlpoK0R1T0VFeTB5VmI1SzNPdEs1a0IzTkphZWZYNklWUmZSdTJUZitSZ1VqSEFtVWV6aXV5dXdXRkozN29OdzllTEk3N21pZGV1blNTYVZZellReC82Nk41OG40TStUREgwdUVjQ1JRNXVGNElidi94cjg4T3pHVW95a252eWNNV0Z5bit1Mnc1OWJ4dDRvell2cHp0ZkU4K1dQWXFPR0VnM0FVNDlyczErN1NTSjFscXNsRHUwc2puZGVwZnVPR1hqcEpHTUpMWmNEOCsycmplWExNV21jWXd1RmZGK0ZJSVBlVzlWQnBuNCt5Tk9qZE84VXBFdXBVdjNIRzdIL2RGa1d0WStLZDAydmhlVEwvNk5SK0tZVER2eTdDa2NCNjJRRmpKbnVIc1NrdkwvWjlLblhTRU1KaEJqU1RKNmhKSnZYR29PVFBreEhiVHJvdGRVbzQvT3NpSEFuVWpOQzdmQ24vUytyTFg2dVBEcjdzYlJEaE1EMmVHaTVQaWhkdmlWbkJ0Sk9sZlo0TVBEUXpiQ1RoOEsrTGNDUndhL3ZzdVZNOUl4U1hrZk11dlNCN1FFakRDSWN4STcrNk9mOE5aV012T0M0emwwc0pueWNqUHV1ZW13T1hjUGpYUlRqaWphZ1pFbmNWejV3SVplTytjL3JYN0x6ZVVNSmh6SUVINWp2Y1ZmWmI3OXl1NlNWN25venYzeWUwdnp2aDhLK0xjTVFiYzJMdTdIcmYxK1BqS05vakhhOXVINzdjY01KaEtpODZXdlZtN3FKbHZneDlOVkthNThua3AxOVkvNWJ3QXNMaFh4ZmhpSGZoQ2JtenVuK3VCdVhQaC85cWFTMXFRT0dvZG5UTGhVbjM2TDl4MExsOXdwZFB6ak1YZGtKanZ4N1ZkWXExakhENDEwVTQ0aTJzT1V6K2ZIRU9sZ2J1cjF2WDZMMzUrSTNkS3hwV09JenAvRVgvYjRTcEtTMHozbjV3TTJ2c3RlTEM4Y0xINng3WGRaQndCZUh3cjZ0aGgyT01NR2Q0Y1JZY0pTemNNZiszK2svVTdMMHhXNTZqc2NacSt3c0xGOTBXKzdnS1dHdDFWL05OOVA3N1p5dmMwbTdZUVQ5WGpPM2p1MG1UczR0OFhFWGFVcGgrZDlURW15YjVEMkhwdjhUTUxZUmh3Z3A1bm13MmI2bWRseHpRZEoxMXIvUGVaRldwSnFXeTN0SFdBc0xoS2pRY1dDd051N05GOHg4MytTSjg1TnI0M1YvN1kvY3VHeVVkVzdBY0VRNFg0VUFCT2xTZTlOMzN5Nno2L05NWFRxL3ZoMUlIQ0llTGNBQXhDSWVMY0FBeENJZUxjQUF4Q0llTGNBQXhDSWVMY0FBeENJZUxjQUF4Q0llclBNTXg3OHovL2ZUZkpwL3VQcmZUSGZYOVVORDRFUTVYb2VIb0k3NWk5M3d3YzZicHI0VTluUHpPSFZMOVI5ZlB6MzI2TXJlb3lSRVB0enJpVVBXYWhnUTdxQS8wNzV1WVVaVWJJR2lqcitKWHUvTWM5U05CdzBjNFhPVVdqbUZyL09vTXVEOWl0SDVWejI5Wi9VZkhIckV6Z2hBT0VBNUJlWVhqaWVNNmxXaFZwNlVPQmprcDN4RWxBY0lCd2lFb3EzQzhQblp5eWRhMXozMm00MFB4TnlNY0lCeUNzZ3BIS1ZVWDRlTXRFOTBzZzNBc3RnaUhhN0VOaHhuMzZUWUo1andsSENBY2dqSU54L0J2Ty81OXA0Yy8rT21YQXI0WHphamE4dUFrdDhxRlkrTXY0MjlOT0JvbHd1RXFNaHd0ZWdRWHZ3cW1iclhETVdTVDRPTGJsOWVzNDgwNXdvcW5aaWFkejkwamF1eUhvUXNUbnZ4d3RleFFjbDNQMjdmVE5abnpiVHI0SC9pMUw1dHJXejRjbkYrNVorU3F1ekpCMk8rakE0U0g3THpqV1BFQ2FmMUw5RStmRUk1R2lYQzRpZ3pIaVdPQ2kwKzBUWi9ZNGJqcndPRGl2SDFxMW5HY05iaGMrUFkxOTRnS2o2UTNmWUkxWmt5blp5OU5UMGJ5bWpBRVg5WkJqeHZUWTJKd3Z1UGdnOEpYUFovNXBtTkdSWGZoSVR2aFdDUGNzSnorTjZWUENFZWpSRGhjWlJlT05jNC8zTGw2OW9OWG1maHdETW1PU3ZyeW5xRnJ1a3pLbkpuYlJuckloQU9FUTFCdTRXajZzWEIxMnlkU2Y4YUZ3K3lSMmZ6YThjQ2hOZGNzOTIxdzJuTjY5QUVRRG1RUkRsZVpoZVAxamFTcnJ6Z3Q5V2RzT003L0tQT2psMXdtZDBYdTMrMkJUdEVIUURpUTFaakRzZnBIaGYzd3ByOW8vaXBydlo4OVZ6L2htUEQ0TmNLMUhUb2ZsenFKRFlmWit0bmcwa2NQNXQ1eVhITkUrQWJ1UXlZY2FNVGhPUDdkR1lYKzlNNFhKZGdOS3F1RTd6Z3Fud3F2K1AzUE1tZXk5NWgyYmZqcUMzY05UcWRuSnlPWWZmaGRNNVphOE5oQis2VyttRmdybUFlajY3SFptMSthMmVneXNtMTJTYi8weS8yRno0THZNY3kvcWpMTGYvczlPQjI2S0Zza2J6Z3ltMk96NFJqNVF2Z0JEZ3plcnhDT1JxbXhocVBKOWs4VTgvUG5UWjZVOUtZbERNZnQwalFxOGoxcXJQOTJjTnJsbmlXRE0yTlhtRFRjZkd4UHNwRjkvWTZ3Mzl4azc5K3RWV2ErbG9jenM1K3ZscHYrSStrN2p1M2ZGUjRmNFdpVUdtazQvdjUveFQ2Q2ZjOU1lR0I2Zllkam4vdUMwNmNPcUZrMi9zMko5czI4NFJnOU56T2owSm8vcFUvNmpnOHV6bDUzSjg4RElCeG9uT0VZK081ZHB1VnV4Zno4S1orWnNaL0VEa3lSVnQvaDJDL3ppZXpkN2ZNK1RHODR6TXFmQjZkZDlrMi81VGdyTXozeUZwLzZIZ0RoUUdNTVIrL241NW5EaWozVy9NOWVFODNST3d4TGNNdjZEa2V2cTRMVHEvTFBET2tQeDhYUFo3NDdTWDh2Y3NLRndZWHU5OVk4TlFnSGJJMHdITyt1L2NVWFB4MFVmN3NZSTN2OXc0dzdNLzUyOVIyT3gzWUpUays4SWUvRDlJZkRISE5wY0RycDErcjIvTzNyNEVMbWc0djBBQWdIR21NNDNqOTJiUDUzN1VtdCtjSGRQZUp2VmQvaHlPN0NOZURtUmZrZVpwNXdqT2kyWVhEbUgvODFzMXNFWnc4NUpaUmV3Z0ZiWXd6SFFlK1U1a0VNcWp6MXl2aGIxWGM0bnRneGM2YmpPYnRiVjNWSzdjVnhRWlAwZVNzY001NnUvdVBpS2NFRTdObVBKNU1IVE53czgvN2xqajcrQitEZEhDdUZZOFl5TGFWSGpUSkhPUHdHVlQ3VU1mNVc5UjJPSnFlZmtUMTc4TDlhaGErNStzalVuNW10TFZZNHRwcVgrak56TElwNVpkUGdkSjBIdGc3T3RPOXluUDhCcU1JUi9DQTBOb1REYjFEbEdlUGpiMVYzNFlobzlYejIzQVkxZThoWHpWNHJkSmpzU2VtajNmT0ZvMkw1WU9HMTNZUFQxVnRQRGM0TWlXek9MV2pQMGNnUFFtTkRPUHdHVlk0WkZYK3JFb1pqOXNtaDlSNlczWk16TGh4akh3NGZVOTkyOU42NTh5dW0zaERrQzBmdUc0OVdNeU1yZnpMekV5ODhUWHJJaEFPTk1SenQzaXRaT0c3cUgzK3IyanJJN1puOXN1ZGl3bUhHUEhsYjZJcXBWNzJVKzViMDEwVXg0Vmg5VkxBUmQ4bGp3bytnNnZVZ1JSZFBlMHA2eUlRRGpTOGNGejNiL0syWnNiZEs1SS92MXY1UC9LM3FQeHltMzArUm8xZzZuNUg5UHZLRkR3N09IdzZ6NnNMZ2RMdW5ReXZZTzNQTXlVcS9pdytaY0tDUmhXUHdkdGMrbVA4V1N0T3VhSGYybi9sdlVsdEh4eXJDWVJhMWVDUnk1VjdkTTN1RFZiK2s4NGRqN0tKejBxZVB2TnNyZCs4ZWV3OUpuNDVlZEFIaGdLd1JoZU9QelhaSnRwTzQwdVNKWi8xekovL1ZEZUFkUjdWamY0b2NYUC9rb21BM2pDYi9pd21IYVo1NTBXLzBldTdPU3l3Ym5LNDNYMzdJaEFPTkp4d3ptNjFad3A5diszcEQ3MVYxRjQ3Ykx3cGR2YXNWeVFtL0QvczZkSEdYTjRQVGJlZkdoTU04MnpwOU11Q2p6TEZ1NXYyUGdzUDdIdG5OODVDOW0yTS9ESTlnT0xpdjlZUFFtRFNhY093MWExVHRQVVZ2V1AzcWszM1gxVjA0NVAwNGFsejIxZW01ODFVN3RVdWYvdlo3WERoMmZ5MDRYVFY3VUZ2MmE0OXRub2tOUjRJOVJ3bEg0OVJvd3RIMUJ2OXJ1Mmg3UEhUbU9OOTFwZHlQWTluUWV0ZmNOM3N1YVRpTW1YWHgzZG16YmVhbVQ4NCtMUzRjWm5Ed0lXZnMrcGs1VlI0OUpIMXlTd2ZmUXlZY2FEemg2SGh6TFlaalhMOEx6L0ZkVnhPT3pPNWlWaml1emg1aWUyZ3dsRjZwOXh5TnVIL2dxNWx6UFk0TnZ1VzRkYlc0Y0J5Y3VlYUdyc0hwdGNFWVFPUDZHZlBlZHRJRE9PT0s3RjBuQlh2VzVndEh6Mk4yaVgzVUtEK05KaHlWZzJveEhDZU9lZHY3OVdqY093NWJyWWJEbUZXeUF3NmVGUXc1L09zVGNlRXdtU2hhNGJpN1RkNDNTV0VjNUxiNGFUVGg2SFZWTFlhai9hMFB0L2RkMThEQ2tSdlk1NFlUMHllN2pJNE54M21Wd1IwSUJ4SnJOT0ZvZDFzdGh1T0FhWU9sb2NUVEdsbzRzdHRWajV5V1B0bHVUR3c0VHI0NmZVSTRrRnlqQ2NkTmg5VmlPQjdieFgrQWZUMkhvL2Y2MWh6VEN6STdyQTBLOWlZZDE0eHdvUFFhVFRoK05yVVlqalozVCtucnU2NmV3ekZyNVlOdU9pUjBlY0llbVYxT01xbDc0LzhJQjBxUGNDU3gvL1FoenJEaFdhVVB4eG5aQVF1VHZHNW43V1VxSDUvM1hIYk1zd21qTTBmNHZmOVpzRldsN1dEQ2dkSnJMT0g0NnhkelorL1VtU20vZlZzeGQ3ZnZLb2YwYnpacXBmbHQyODM4WWY0RlV6WitjTGRXbDU1aVRsMWxuMGNPMkdaQXEzWC9lbDZjZTh6cnd6dUhYK2E3enJzNXRtbnp5TzNtQjFNa2FjSmhiUTN0L0cxNGZkc0V1NDVXaDZOYWp6Tzc3ZEhoZ1g2dnZiTk1kaCt3ZllJeWpCMFF1eDlIbmk5SDh6NEFZNDRjR0p4bXc5SHB1L0MxWjdlTC9HQTBLbzBqSE1kUFB5TEJ5Qm5GbUhiaHRndnVGSy94dnVPd1pDZFVMUHdkUjFSbUNzZ2dISTZwVDA3SzNEYytISW5mY2RoNlpRWUNZUXJJeFUvNWgyUHlmYTl0UHFXRVA5cnZnTlBiQ2Y5Y0RUTWNPMlhtWjJ2K0hPRkFMU2ozY0p6KzhKd1MvdGhZYjkzZ2JGM3hIbFp2cWROd2pGbzlPSzUrN0NadENBZHFRYm1INDg4RjB1MXF6MlhEN1NVTjhSMUhtOE15NDNHczlFWGNZZldHY0tBQTVSNk9lVnZOK2JIWjdLWDMydm1QeXc2WTNMSzRhWmltL0xiNjlhbXZWWCs0Y1p6WjhNV2RacTU2d1pSL3A3NVVuVGIvbTlWUzM2bXU4KzRMbDRUbktRclVjemlhYkhySHh0WTFIUTg5TVhQdWtkMWloZzVNSXh4UUsvZHd6Tms1eWFSSnBUSmc3UHJmMmN2cU9Sekd2UHoxc0RXbTV4WjMvbm5yUGJ0bkw2UW1wQ1ljcUFYbEhvN1R6cTdiY0d6NnViM00yUnhiTkh0emJBSURkbXh4dy9WTC8zcnZncGZDMDkybWg5Z0l6MkpmUXdpSEpiUTV0aWlFbzFFcTkzQzh2WDdkaG1QckQreGx6anVPb3Rudk9Bb1ZURU5mVERpS2ZBQnBoS05SS3Zkd0hIdEozWVlqdTVtelJvTU54OVBCMndYQ2dWcFE3dUU0NllLNkRjY2VyOWpMR21nNHhsL3pYSENHY0tBV2xIczQ3bXhidCtIWTl6bDdXY01NUjgvdnN3K0djS0FXbEhzNERydXBic09SM1RaU281N0Q4ZWNscHpqTEZwM1M3SWpjQmNLQldsRHU0YmpncExvTng1UE9sc2w2RHNlNVF3N2VlTjh2UXZHb0dyaG9VZmdHaEFPMW9OekRzZUtYc3c1clVzSWZuTitBc2U0R3lwcHcxS051SzcvMzMvLyt1dndLZjF0NXZMMDdHRkFMeWlzY1hWWll1UFcvbHg0MmI1VTJKZnhaQUxUS0t4d0FHZ1RDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUN0Z1lZRHdHS0NjQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBRFhDQVVDTmNBQlFJeHdBMUFnSEFEWENBVUNOY0FCUUl4d0ExQWdIQURYQ0FVQ05jQUJRSXh3QTFBZ0hBTFgvQnpJM2Znckk2dU5BQUFBQUFFbEZUa1N1UW1DQyIvPgoJPC9kZWZzPgoJPHN0eWxlPgoJPC9zdHlsZT4KCTx1c2UgaWQ9IkJhY2tncm91bmQiIGhyZWY9IiNpbWcxIiB4PSItNzUiIHk9Ii00MDAiLz4KPC9zdmc+" alt="Hard Mode Lifestyle" />
+        <span class="header-lesson">Aula gratuita · Arquitetura da Rotina</span>
+      </a>
+      <a class="btn header-cta checkout-link" href="#oferta">Começar · R$ 67 <span>→</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="lesson" id="aula">
+      <div class="container">
+        <div class="lesson-head">
+          <p class="eyebrow">AULA GRATUITA · ARQUITETURA DA ROTINA</p>
+          <h1 aria-label="Monte uma rotina que você consegue manter mesmo quando o dia não sai como o planejado e pare de recomeçar toda semana."><span class="lesson-title-line">Monte uma rotina que você consegue manter</span><span class="lesson-title-line">mesmo quando o dia não sai como o planejado</span><span class="lesson-title-line">e pare de recomeçar toda semana.</span></h1>
+        </div>
+        <div class="player-shell" id="player-shell">
+          <div class="player-placeholder" id="player-placeholder" aria-hidden="true"><div class="play-mark"></div></div>
+        </div>
+        <p class="lesson-micro">Assista até o fim. No final, eu junto tudo que você viu e mostro como transformar isso em um plano pra sua rotina.</p>
+        <div class="lesson-actions">
+          <div class="timed-call stage-20" id="stage-20" hidden>
+            <h3>Já entendeu a lógica e quer aplicar isso na sua própria rotina?</h3>
+            <p>Eu posso te mostrar como descobrir o que você precisa corrigir primeiro e transformar isso num plano claro para os próximos 21 dias.</p>
+            <div class="timed-actions">
+              <button class="timed-link" type="button" id="stage-20-advance">Quero ver como funciona →</button>
+            </div>
+          </div>
+
+          <div class="timed-call stage-35" id="stage-35" hidden>
+            <span class="timed-kicker">Hard Mode 21</span>
+            <h3>Descubra o que está atrapalhando a sua rotina e receba um plano de 21 dias feito para o seu caso.</h3>
+            <p>Você responde um questionário, o Hard Mode 21 identifica a sua maior dificuldade e monta o plano que você vai seguir pelos próximos 21 dias.</p>
+            <div class="timed-actions">
+              <a class="btn checkout-link" href="#oferta">Quero meu plano de 21 dias por R$67 <span>→</span></a>
+            </div>
+            <p class="microcopy">Pagamento único · Acesso na hora · 7 dias de garantia</p>
+          </div>
+
+          <div class="lesson-buy" id="lesson-buy">
+            <a class="btn checkout-link" href="#oferta">Quero meu plano de 21 dias por R$67 <span>→</span></a>
+            <p class="microcopy">Acesso na hora · 7 dias de garantia · Pagamento único, não é assinatura</p>
+          </div>
+
+          <div class="test-panel" id="test-panel" aria-label="Controles de teste">
+            <div class="test-panel-head"><b>Modo de teste</b><span>Simule o tempo do vídeo</span></div>
+            <div class="test-buttons">
+              <button type="button" data-test-stage="0">Início</button>
+              <button type="button" data-test-stage="20">20 min</button>
+              <button type="button" data-test-stage="35">35 min</button>
+              <button type="button" data-test-stage="50">50 min</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sales-content" id="sales-content" hidden>
+      <section class="reveal-hero" id="reveal">
+        <div class="container reveal-grid">
+          <div class="reveal-copy reveal">
+            <h2>Você não precisa de mais método. Precisa saber por onde começar.</h2>
+            <p>Você acabou de receber a estrutura inteira: o Necrológio, o sono, a dopamina, a manhã, os blocos de foco, os três pilares, o ambiente e o plano pros dias ruins.</p>
+            <p>É muita coisa junta. E é aí que quase todo mundo trava.</p>
+            <div class="actions">
+              <a class="btn checkout-link" href="#oferta">Quero meu plano de 21 dias por R$67 <span>→</span></a>
+              <p class="microcopy">Acesso na hora · 7 dias de garantia · Pagamento único, não é assinatura</p>
+            </div>
+          </div>
+          <div class="reveal-visual reveal">
+            <div class="method-list">
+              <div class="method-item"><span>01</span><b>Necrológio</b></div>
+              <div class="method-item"><span>02</span><b>Sono</b></div>
+              <div class="method-item"><span>03</span><b>Dopamina</b></div>
+              <div class="method-item"><span>04</span><b>Manhã</b></div>
+              <div class="method-item"><span>05</span><b>Blocos de foco</b></div>
+              <div class="method-item"><span>06</span><b>Três pilares</b></div>
+              <div class="method-item"><span>07</span><b>Ambiente</b></div>
+              <div class="method-item"><span>08</span><b>Plano pros dias ruins</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="depois-da-aula">
+        <div class="container after-grid">
+          <div class="reveal">
+            <p class="eyebrow">O que costuma acontecer depois de uma aula dessas</p>
+            <h2 class="section-title">Vou ser honesto com você.</h2>
+            <div class="body-copy">
+              <p>Você fecha essa página com a cabeça cheia de ideia. Anota umas seis coisas que vai mudar. Decide que segunda começa tudo: dormir mais cedo, acordar cedo, largar o celular, treinar, ler, planejar o dia no papel.</p>
+              <p>E aí vem a parte pior. Você não conclui que tentou mudar seis coisas de uma vez. Você conclui que <strong>você</strong> é o problema. Que não leva jeito. Que já tentou de tudo.</p>
+              <p><strong>Não é isso.</strong></p>
+            </div>
+          </div>
+          <div class="weekday-line reveal">
+            <div class="weekday"><span>SEGUNDA</span><p>Segunda você faz.</p></div>
+            <div class="weekday"><span>TERÇA</span><p>Terça você faz.</p></div>
+            <div class="weekday"><span>QUARTA</span><p>Quarta o trabalho aperta, você dorme tarde, acorda atrasado, pega o celular na cama e o dia desanda.</p></div>
+            <div class="weekday"><span>QUINTA</span><p>Quinta você não tenta mais.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="sozinho">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">Por que fazer sozinho quase nunca dá certo</p>
+            <h2 class="section-title">Três motivos, e nenhum deles é falta de vontade.</h2>
+          </div>
+          <div class="reason-layout reveal" id="reason-lab">
+            <div class="reason-tabs" role="tablist" aria-label="Três motivos">
+              <button class="reason-tab active" type="button" role="tab" aria-selected="true" data-reason="one"><span>01</span><b>Você tenta consertar tudo ao mesmo tempo</b></button>
+              <button class="reason-tab" type="button" role="tab" aria-selected="false" data-reason="two"><span>02</span><b>Você conserta a peça errada</b></button>
+              <button class="reason-tab" type="button" role="tab" aria-selected="false" data-reason="three"><span>03</span><b>Ninguém te diz o que é hoje</b></button>
+            </div>
+            <div>
+              <article class="reason-panel" data-reason-panel="one">
+                <h3>Você tenta consertar tudo ao mesmo tempo</h3>
+                <p>A aula te mostrou seis frentes. Se você atacar as seis na segunda, sua energia acaba antes de quarta. É a bateria do celular que a gente falou no final da aula. Mudança que pega é mudança em ordem, uma coisa de cada vez.</p>
+              </article>
+              <article class="reason-panel" data-reason-panel="two" hidden>
+                <h3>Você conserta a peça errada</h3>
+                <p>Esse é o pior. O cara acha que o problema dele é não conseguir acordar às 5h30 e passa três meses brigando com o despertador. Só que o problema dele nunca foi acordar. É que ele deita à 1h da manhã com o celular na mão. A manhã já estava quebrada desde a noite anterior, e ele estava mexendo no lugar errado.</p>
+                <p>Sozinho é difícil enxergar isso, porque você está dentro do problema.</p>
+              </article>
+              <article class="reason-panel" data-reason-panel="three" hidden>
+                <h3>Ninguém te diz o que é hoje</h3>
+                <p>Saber o método é uma coisa. Saber o que fazer <strong>hoje, quarta-feira, com o dia que você tem</strong> é outra. Você sai da aula com princípios. Falta a lista do dia.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark" id="diagnostico">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">O que é o Hard Mode 21</p>
+            <h2 class="section-title">A aula te deu o método. O Hard Mode 21 te dá o método aplicado a você.</h2>
+          </div>
+          <div class="product-grid">
+            <div class="body-copy reveal">
+              <p>Você responde 40 perguntas sobre como a sua vida funciona hoje. Sono, manhã, trabalho e foco, treino, comida, celular, vida espiritual e o que te trouxe até aqui.</p>
+              <p>Essas respostas viram uma nota em cinco áreas:</p>
+              <p><strong>Sono e Biologia · Força Prática · Trabalho · Vida Espiritual · Consistência</strong></p>
+              <p>A área mais baixa é o seu primeiro campo de batalha. É por ela que o plano começa.</p>
+            </div>
+            <div class="questionnaire reveal">
+              <div class="question-head"><span>40 PERGUNTAS</span><b>Cinco áreas</b></div>
+              <div class="score-list">
+                <div class="score-row"><span>Sono e Biologia</span><div class="score-track"></div><b>—</b></div>
+                <div class="score-row"><span>Força Prática</span><div class="score-track"></div><b>—</b></div>
+                <div class="score-row"><span>Trabalho</span><div class="score-track"></div><b>—</b></div>
+                <div class="score-row"><span>Vida Espiritual</span><div class="score-track"></div><b>—</b></div>
+                <div class="score-row"><span>Consistência</span><div class="score-track"></div><b>—</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="deliverables" style="margin-top:28px">
+            <article class="delivery reveal"><span>1. SEU DIAGNÓSTICO</span><h3>Um texto direto sobre a sua situação.</h3><p>Nomeia o seu ponto de quebra sem enrolar, explica por que ele derruba o resto e ainda aponta o seu padrão de recaída — o motivo pelo qual as suas outras tentativas morreram no meio.</p></article>
+            <article class="delivery reveal"><span>2. SEU PLANO DE 21 DIAS</span><h3>A rotina exata que você segue todo dia.</h3><p>Montada em cima desse ponto. Você abre de manhã e já sabe o que fazer.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="diagnostico-real">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">Como é um diagnóstico de verdade</p>
+            <h2 class="section-title">Não é relatório com gráfico colorido. É assim:</h2>
+          </div>
+          <div class="diagnosis-shell reveal" id="diagnosis-demo">
+            <div class="diagnosis-tabs" role="tablist" aria-label="Trecho do diagnóstico">
+              <button class="diagnosis-tab active" type="button" role="tab" aria-selected="true" data-diagnosis="field">Seu primeiro campo de batalha</button>
+              <button class="diagnosis-tab" type="button" role="tab" aria-selected="false" data-diagnosis="why">Por que isso acontece</button>
+              <button class="diagnosis-tab" type="button" role="tab" aria-selected="false" data-diagnosis="mission">Sua primeira missão</button>
+            </div>
+            <article class="diagnosis-panel" data-diagnosis-panel="field">
+              <h3>Seu primeiro campo de batalha</h3>
+              <blockquote>Você planeja bem, mas executa mal. O ponto é esse. Você sabe exatamente o que precisa fazer, cria o plano, mas na hora de colocar em prática, você mesmo acaba se atrapalhando no meio do caminho.</blockquote>
+            </article>
+            <article class="diagnosis-panel" data-diagnosis-panel="why" hidden>
+              <h3>Por que isso acontece</h3>
+              <blockquote>Você já perdeu a conta de quantas vezes tentou recomeçar e disse que o que mais te trava é "eu mesmo me sabotando". Só que, vendo de fora, isso não tem a ver com falta de vontade, é a estrutura do seu dia que tá jogando contra você. (...) O problema não é que você não consegue seguir o plano, é que você começa o dia entregando sua atenção antes mesmo de ela ser sua.</blockquote>
+            </article>
+            <article class="diagnosis-panel" data-diagnosis-panel="mission" hidden>
+              <h3>Sua primeira missão</h3>
+              <blockquote>Dia 1: quando acordar, não mexa no celular nos primeiros 30 minutos. (...) É simples assim, de propósito. A intenção não é fazer você virar outra pessoa amanhã, é provar pra você mesmo que dá pra vencer a primeira escolha do dia.</blockquote>
+            </article>
+          </div>
+          <div class="diagnosis-notes reveal">
+            <div class="diagnosis-note"><p>Repara que ele fala a sua língua. Cita o que você mesmo escreveu, do seu jeito — não fica repetindo "de acordo com suas respostas" toda hora. Parece que alguém leu você, não um formulário.</p></div>
+            <div class="diagnosis-note"><p>E termina te dizendo uma coisa só pra fazer amanhã de manhã. Não uma teoria. Uma ação — e essa mesma ação te acompanha todos os dias dos 21 dias.</p></div>
+          </div>
+          <p class="microcopy reveal">Trecho real, com o nome trocado.</p>
+        </div>
+      </section>
+
+      <section class="section soft" id="como-funciona">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">Como funciona</p>
+            <h2 class="section-title">Como funciona</h2>
+          </div>
+          <div class="steps">
+            <article class="step reveal"><span class="step-number">01</span><h3>Você responde o questionário.</h3><p>De 10 a 15 minutos. Sobre a sua rotina de verdade, não sobre a que você gostaria de ter. Quanto mais honesto, melhor sai o diagnóstico.</p></article>
+            <article class="step reveal"><span class="step-number">02</span><h3>Você recebe o diagnóstico e o plano.</h3><p>Na hora, sem fila.</p></article>
+            <article class="step reveal"><span class="step-number">03</span><h3>Você executa e marca.</h3><p>Todo dia o app mostra o que fazer. Você marca o que cumpriu. A trilha dos 21 dias vai enchendo e você vê a sua sequência crescendo.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark" id="plano">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">Como são os seus 21 dias</p>
+            <h2 class="section-title">Cada dia tem três partes.</h2>
+          </div>
+          <div class="days-shell reveal">
+            <div class="days-strip" aria-label="Trilha de 21 dias">
+              <div class="day-number">01</div><div class="day-number">02</div><div class="day-number">03</div><div class="day-number">04</div><div class="day-number">05</div><div class="day-number">06</div><div class="day-number">07</div><div class="day-number">08</div><div class="day-number">09</div><div class="day-number">10</div><div class="day-number">11</div><div class="day-number">12</div><div class="day-number">13</div><div class="day-number">14</div><div class="day-number">15</div><div class="day-number">16</div><div class="day-number">17</div><div class="day-number">18</div><div class="day-number">19</div><div class="day-number">20</div><div class="day-number">21</div>
+            </div>
+            <div class="day-structure">
+              <article class="day-part"><span>01</span><h3>A prioridade</h3><p>Uma coisa só. A que ataca direto o seu ponto de quebra — a mesma primeira missão do diagnóstico. Se o dia desandar e você só conseguir fazer uma coisa, é essa.</p></article>
+              <article class="day-part"><span>02</span><h3>A rotina base</h3><p>As ações que se repetem todo dia, porque é a repetição que constrói o hábito. São poucas e são suas, montadas em cima do seu caso.</p></article>
+              <article class="day-part"><span>03</span><h3>O desafio do dia</h3><p>Um desafio diferente em cada um dos 21 dias. E todos atacam <strong>o mesmo problema</strong>, só que por ângulos diferentes. Não é um assunto novo por dia — é o seu ponto de quebra visto de 21 jeitos, pra você não enjoar de repetir a mesma coisa por três semanas.</p></article>
+            </div>
+            <div class="days-bottom"><strong>E tudo vem enxuto de propósito.</strong> Nada de rotina de quatro horas que só existe no papel. O plano é montado no tamanho que você aguenta todo dia, inclusive nos dias ruins. Um por cento feito vale muito mais que cem por cento imaginado.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="incluido">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">O que vem junto</p>
+            <h2 class="section-title">O que vem junto</h2>
+          </div>
+          <div class="included-grid">
+            <article class="included-item reveal"><i>✓</i><p><strong>Questionário de 40 perguntas</strong> e sua nota nas cinco áreas</p></article>
+            <article class="included-item reveal"><i>✓</i><p><strong>Seu diagnóstico</strong> — ponto de quebra, padrão de recaída e a primeira missão</p></article>
+            <article class="included-item reveal"><i>✓</i><p><strong>Plano de 21 dias</strong> — prioridade, rotina base e desafio diário</p></article>
+            <article class="included-item reveal"><i>✓</i><p><strong>Tudo dentro do app</strong>, com marcação diária e trilha de progresso</p></article>
+            <article class="included-item reveal"><i>✓</i><p><strong>Lembrete no celular e no WhatsApp</strong>, pra você não perder o dia por esquecimento</p></article>
+            <article class="included-item reveal"><i>✓</i><p><strong>16 dias com o Hard Mode App completo</strong>, do dia 15 ao 30 — os 28 módulos abertos</p></article>
+            <article class="included-item reveal" style="grid-column:1/-1"><i>✓</i><p><strong>Quatro materiais liberados na Academy:</strong> Biblioteca Hard Mode, Diário do Homem de Base, Guia de Treino em Casa e Checklist de Auditoria Semanal</p></article>
+          </div>
+          <div class="app-note reveal"><strong>Sobre os 16 dias de app:</strong> nas duas primeiras semanas você precisa de foco, não de ferramenta nova. Quem abre tudo no dia 1 passa a semana mexendo no app em vez de mudar a rotina. No dia 15 o hábito já pegou — aí faz sentido abrir o resto.</div>
+        </div>
+      </section>
+
+      <section class="section dark" id="oferta">
+        <div class="container offer-grid">
+          <div class="offer-copy reveal">
+            <p class="eyebrow">Oferta</p>
+            <h2>R$ 67, uma vez só.</h2>
+            <p>Não é assinatura. Você paga e o plano é seu.</p>
+            <div class="offer-anchor">Pensa na última mensalidade de academia que você pagou. Provavelmente custou mais que isso. E se você for honesto, teve mês que você pagou e foi três vezes.<br><br>A diferença aqui é que ninguém depende da sua vontade de levantar. O plano já vem pronto, o lembrete chega no seu celular e a lista do dia tem uma coisa só como prioridade.</div>
+          </div>
+          <div class="offer-card reveal">
+            <span>HARD MODE 21</span>
+            <div class="price"><span>R$</span><strong>67</strong><em>UMA VEZ</em></div>
+            <div class="offer-list">
+              <div><i>✓</i><span>Questionário de 40 perguntas e sua nota nas cinco áreas</span></div>
+              <div><i>✓</i><span>Seu diagnóstico</span></div>
+              <div><i>✓</i><span>Plano de 21 dias</span></div>
+              <div><i>✓</i><span>Tudo dentro do app</span></div>
+              <div><i>✓</i><span>Lembrete no celular e no WhatsApp</span></div>
+              <div><i>✓</i><span>16 dias com o Hard Mode App completo</span></div>
+              <div><i>✓</i><span>Quatro materiais liberados na Academy</span></div>
+            </div>
+            <a class="btn light full checkout-link" href="#">Quero meu plano de 21 dias por R$67 <span>→</span></a>
+            <p class="microcopy">Pagamento único · Acesso na hora · Sem mensalidade escondida</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="garantia">
+        <div class="container guarantee-grid">
+          <div class="seal reveal"><div><span>GARANTIA</span><strong>7</strong><b>DIAS</b></div></div>
+          <div class="guarantee-copy reveal">
+            <p class="eyebrow">Garantia</p>
+            <h2>Você tem 7 dias pra pedir o dinheiro de volta.</h2>
+            <p>Compra, responde o questionário, lê o seu diagnóstico e olha o plano. Se achar que não serve pra você, pede o reembolso e recebe tudo de volta. Sem justificar nada e sem ninguém te ligando pra tentar te convencer do contrário.</p>
+            <p>Se o diagnóstico não te fizer reconhecer nada sobre a sua própria vida, ele não serviu. E você não deveria pagar por ele.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="para-quem">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Pra quem é / pra quem não é</h2>
+          </div>
+          <div class="qualify-grid">
+            <article class="qualify-card reveal">
+              <h3>É pra você se:</h3>
+              <div class="qualify-list">
+                <div class="qualify-item"><i>✓</i><span>Você entendeu a aula e quer aplicar, mas não sabe por onde começar</span></div>
+                <div class="qualify-item"><i>✓</i><span>Você já tentou montar rotina mais de uma vez e não sustentou</span></div>
+                <div class="qualify-item"><i>✓</i><span>Você prefere uma lista curta e certa a uma lista longa e bonita</span></div>
+                <div class="qualify-item"><i>✓</i><span>Você quer saber qual é o <strong>seu</strong> problema, não o problema geral das pessoas</span></div>
+              </div>
+            </article>
+            <article class="qualify-card dark-card reveal">
+              <h3>Não é pra você se:</h3>
+              <div class="qualify-list">
+                <div class="qualify-item"><i>×</i><span>Você quer resultado sem fazer nada</span></div>
+                <div class="qualify-item"><i>×</i><span>Você não vai responder o questionário com honestidade — o diagnóstico é tão bom quanto as suas respostas</span></div>
+                <div class="qualify-item"><i>×</i><span>Você espera que 21 dias resolvam a vida inteira. Não resolvem. Eles começam.</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="perguntas">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Perguntas</h2>
+          </div>
+          <div class="faq reveal">
+            <article class="faq-item"><button class="faq-question" type="button"><b>Isso é a mesma coisa da aula, só que pago?</b><i>+</i></button><div class="faq-answer"><p>Não. A aula é o método, e é igual pra todo mundo que assistir. O Hard Mode 21 é o método aplicado ao seu caso: qual parte você ataca primeiro, em que ordem, e o que você faz em cada um dos 21 dias.</p></div></article>
+            <article class="faq-item"><button class="faq-question" type="button"><b>Preciso já ter alguma rotina pra começar?</b><i>+</i></button><div class="faq-answer"><p>Não. Quanto mais bagunçado o ponto de partida, mais claro fica o diagnóstico.</p></div></article>
+            <article class="faq-item"><button class="faq-question" type="button"><b>Quanto tempo por dia isso vai tomar?</b><i>+</i></button><div class="faq-answer"><p>O plano é montado pra caber na sua rotina real, inclusive na versão de 20 a 30 minutos que a aula mostrou. Se você tem pouco tempo, o plano vem curto.</p></div></article>
+            <article class="faq-item"><button class="faq-question" type="button"><b>Quem escreve o diagnóstico?</b><i>+</i></button><div class="faq-answer"><p>Suas 40 respostas passam por uma inteligência artificial treinada com esse método e com o meu jeito de falar. É isso que deixa entregar um plano individual por R$ 67 em vez de R$ 600. O texto é seu, feito com as suas respostas — mas é justo você saber como funciona antes de comprar.</p></div></article>
+            <article class="faq-item"><button class="faq-question" type="button"><b>E se eu falhar no meio?</b><i>+</i></button><div class="faq-answer"><p>Vai falhar em algum dia. Todo mundo falha. A regra continua a mesma da aula: nunca erre dois dias seguidos. A trilha continua de onde você parou, você não recomeça do zero.</p></div></article>
+            <article class="faq-item"><button class="faq-question" type="button"><b>Funciona no celular?</b><i>+</i></button><div class="faq-answer"><p>Funciona. Instala na tela inicial e abre como app, no Android e no iPhone.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing" id="fechamento">
+        <div class="container reveal">
+          <p class="eyebrow">Fechamento</p>
+          <h2>Você já sabe o que fazer. A questão é se vai começar.</h2>
+          <p class="closing-copy">Daqui a 21 dias, uma de duas coisas vai ser verdade.</p>
+          <div class="closing-scenarios">
+            <article class="scenario"><span>01</span><p>Ou está tudo igual. Com o método anotado em algum lugar e a sensação de que quando as coisas acalmarem você começa. E você já sabe que elas não acalmam.</p></article>
+            <article class="scenario"><span>02</span><p>Ou você tem 21 dias marcados, um por um. Sabe qual era o seu ponto de quebra, porque alguém olhou e te falou. E atacou ele por três semanas seguidas em vez de passar mais um ano brigando com o problema errado.</p></article>
+          </div>
+          <p class="closing-copy">A diferença entre os dois não é motivação. É ter um plano que diz o que fazer hoje.</p>
+          <a class="btn light checkout-link" href="#">Quero meu plano de 21 dias por R$67 <span>→</span></a>
+          <p class="ps"><strong>P.S.</strong> Se você fechar essa página achando que dá pra fazer sozinho, tudo bem. O método é seu, você assistiu de graça. Mas se daqui a duas semanas você perceber que não saiu do lugar, volta aqui. É exatamente pra isso que o Hard Mode 21 existe.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="post-reveal" id="post-reveal-footer" hidden>
+    <div class="container footer-inner"><span>© 2026 HARD MODE LIFESTYLE</span><a href="https://app.hardmodelifestyle.com/privacidade" target="_blank" rel="noopener">Política de Privacidade</a></div>
+  </footer>
+
+  <aside class="sticky-buy" id="sticky-buy" aria-label="Hard Mode 21">
+    <div><span>HARD MODE 21</span><b>Diagnóstico + plano de 21 dias · R$ 67</b></div>
+    <a class="checkout-link" href="#">Quero o meu</a>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* CONFIGURAÇÃO
+       CHECKOUT_URL: link da Hotmart.
+       VIDEO_URL: link direto de vídeo, YouTube ou Vimeo.
+       Os três estágios são acionados pelo tempo real do vídeo quando VIDEO_URL aponta para um arquivo de vídeo direto.
+       20 min: primeira chamada discreta.
+       35 min: apresentação curta do Hard Mode 21 + CTA.
+       50 min: reveal completo da página.
+       Para testar sem esperar, abra a página com ?teste=1 no final da URL.
+    */
+    const CHECKOUT_URL = '';
+    const VIDEO_URL = '';
+    const STAGE_20_SECONDS = 20 * 60;
+    const STAGE_35_SECONDS = 35 * 60;
+    const FULL_REVEAL_SECONDS = 50 * 60;
+
+    (function(){
+      const body = document.body;
+      const sales = document.getElementById('sales-content');
+      const shell = document.getElementById('player-shell');
+      const placeholder = document.getElementById('player-placeholder');
+      const toast = document.getElementById('toast');
+      const sticky = document.getElementById('sticky-buy');
+      const stage20 = document.getElementById('stage-20');
+      const stage35 = document.getElementById('stage-35');
+      const stage20Advance = document.getElementById('stage-20-advance');
+      const postRevealFooter = document.getElementById('post-reveal-footer');
+      const testMode = new URLSearchParams(window.location.search).get('teste') === '1' || window.location.hash === '#teste';
+      if(testMode) body.classList.add('test-mode');
+
+      function showToast(message){
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(function(){toast.classList.remove('show')},3200);
+      }
+
+      let currentStage = 0;
+
+      function setStage(stage, source){
+        currentStage = stage;
+        const full = stage >= 50;
+        body.classList.toggle('is-revealed', full);
+        sales.hidden = !full;
+        if(postRevealFooter) postRevealFooter.hidden = !full;
+        if(stage20) stage20.hidden = !(stage >= 20 && stage < 35);
+        if(stage35) stage35.hidden = !(stage >= 35 && stage < 50);
+        updateSticky();
+
+        document.querySelectorAll('[data-test-stage]').forEach(function(button){
+          button.classList.toggle('active', Number(button.dataset.testStage) === stage);
+        });
+
+      }
+
+      function updateTimedStage(seconds){
+        if(seconds >= FULL_REVEAL_SECONDS) return setStage(50,'video');
+        if(seconds >= STAGE_35_SECONDS) return setStage(35,'video');
+        if(seconds >= STAGE_20_SECONDS) return setStage(20,'video');
+        return setStage(0,'video');
+      }
+
+      function configurePlayer(){
+        if(!VIDEO_URL){
+          sales.hidden = true;
+          if(postRevealFooter) postRevealFooter.hidden = true;
+          return;
+        }
+        placeholder.remove();
+        const youtube = /youtube\.com|youtu\.be/.test(VIDEO_URL);
+        const vimeo = /vimeo\.com/.test(VIDEO_URL);
+        if(youtube || vimeo){
+          const frame = document.createElement('iframe');
+          frame.src = VIDEO_URL;
+          frame.title = 'Aula gratuita Arquitetura da Rotina';
+          frame.allow = 'autoplay; fullscreen; picture-in-picture';
+          frame.allowFullscreen = true;
+          shell.appendChild(frame);
+          sales.hidden = true;
+          if(postRevealFooter) postRevealFooter.hidden = true;
+          return;
+        }
+        const video = document.createElement('video');
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        video.src = VIDEO_URL;
+        shell.appendChild(video);
+        sales.hidden = true;
+        if(postRevealFooter) postRevealFooter.hidden = true;
+        video.addEventListener('timeupdate',function(){
+          updateTimedStage(video.currentTime);
+        });
+      }
+      configurePlayer();
+      setStage(0,'init');
+
+      if(stage20Advance){
+        stage20Advance.addEventListener('click',function(){
+          setStage(35,'manual');
+        });
+      }
+
+      document.querySelectorAll('[data-test-stage]').forEach(function(button){
+        button.addEventListener('click',function(){
+          setStage(Number(button.dataset.testStage),'test');
+        });
+      });
+
+      document.querySelectorAll('.checkout-link').forEach(function(link){
+        link.addEventListener('click',function(event){
+          const href = link.getAttribute('href');
+          if(CHECKOUT_URL){
+            event.preventDefault();
+            window.location.href = CHECKOUT_URL;
+            return;
+          }
+          if(href === '#oferta') return;
+          event.preventDefault();
+          showToast('Insira o link do checkout na constante CHECKOUT_URL antes de publicar.');
+        });
+      });
+
+      document.querySelectorAll('.reason-tab').forEach(function(button){
+        button.addEventListener('click',function(){
+          const key = button.dataset.reason;
+          document.querySelectorAll('.reason-tab').forEach(function(item){
+            const active = item === button;
+            item.classList.toggle('active',active);
+            item.setAttribute('aria-selected',String(active));
+          });
+          document.querySelectorAll('[data-reason-panel]').forEach(function(panel){
+            panel.hidden = panel.dataset.reasonPanel !== key;
+          });
+        });
+      });
+
+      document.querySelectorAll('.diagnosis-tab').forEach(function(button){
+        button.addEventListener('click',function(){
+          const key = button.dataset.diagnosis;
+          document.querySelectorAll('.diagnosis-tab').forEach(function(item){
+            const active = item === button;
+            item.classList.toggle('active',active);
+            item.setAttribute('aria-selected',String(active));
+          });
+          document.querySelectorAll('[data-diagnosis-panel]').forEach(function(panel){
+            panel.hidden = panel.dataset.diagnosisPanel !== key;
+          });
+        });
+      });
+
+      document.querySelectorAll('.faq-item').forEach(function(item){
+        item.querySelector('.faq-question').addEventListener('click',function(){
+          const wasOpen = item.classList.contains('open');
+          document.querySelectorAll('.faq-item').forEach(function(other){other.classList.remove('open')});
+          if(!wasOpen) item.classList.add('open');
+        });
+      });
+
+      function updateSticky(){
+        sticky.classList.toggle('show',body.classList.contains('is-revealed') && window.scrollY > 780);
+      }
+      window.addEventListener('scroll',updateSticky,{passive:true});
+      updateSticky();
+
+      const reveals = Array.from(document.querySelectorAll('.reveal'));
+      if('IntersectionObserver' in window){
+        body.classList.add('motion-ready');
+        const observer = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+        reveals.forEach(function(el){observer.observe(el)});
+        setTimeout(function(){reveals.forEach(function(el){if(!el.classList.contains('visible')) el.classList.add('visible')})},2500);
+      }
+    })();
+  </script>
+</body>
+</html>
