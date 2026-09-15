@@ -797,12 +797,9 @@
       }
 
       const embeddedPlayer = document.getElementById('lesson-player');
-      const PROGRESS_KEY = 'hm21_arquitetura_watch_seconds_v4';
+      const PROGRESS_KEY = 'hm21_arquitetura_real_watch_seconds_v1';
       let maxWatchedSeconds = 0;
-      let iframeVisible = true;
-      let lastClockTick = performance.now();
-      let telemetrySeen = false;
-      let lastTelemetryAt = 0;
+      let manualMinStage = 0;
 
       try{
         maxWatchedSeconds = Math.max(0, Number(localStorage.getItem(PROGRESS_KEY)) || 0);
@@ -814,128 +811,70 @@
         }catch(error){}
       }
 
+      function stageFromSeconds(seconds){
+        if(seconds >= BUY_REVEAL_SECONDS) return 54;
+        if(seconds >= FULL_REVEAL_SECONDS) return 50;
+        if(seconds >= STAGE_35_SECONDS) return 35;
+        if(seconds >= STAGE_20_SECONDS) return 20;
+        return 0;
+      }
+
       function applyWatchTime(seconds){
         const value = Number(seconds);
         if(!Number.isFinite(value) || value < 0) return;
 
         maxWatchedSeconds = Math.max(maxWatchedSeconds, value);
-        updateTimedStage(maxWatchedSeconds);
         saveWatchProgress();
-      }
 
-      function findPlayerSeconds(value, depth){
-        if(depth > 4 || value == null) return null;
-
-        if(typeof value === 'string'){
-          try{
-            return findPlayerSeconds(JSON.parse(value), depth + 1);
-          }catch(error){
-            return null;
-          }
-        }
-
-        if(typeof value !== 'object') return null;
-
-        const keys = [
-          'currentTime','current_time','playedSeconds','played_seconds',
-          'seconds','position','time','playbackTime','playback_time'
-        ];
-
-        for(const key of keys){
-          const number = Number(value[key]);
-          if(Number.isFinite(number) && number >= 0) return number;
-        }
-
-        const nested = ['data','detail','payload','player','video','state'];
-        for(const key of nested){
-          const found = findPlayerSeconds(value[key], depth + 1);
-          if(Number.isFinite(found)) return found;
-        }
-
-        return null;
+        const timedStage = stageFromSeconds(maxWatchedSeconds);
+        setStage(Math.max(timedStage, manualMinStage), 'video');
       }
 
       window.addEventListener('message',function(event){
         if(!embeddedPlayer || event.source !== embeddedPlayer.contentWindow) return;
         if(event.origin !== PLAYER_ORIGIN) return;
 
-        const seconds = findPlayerSeconds(event.data, 0);
-        if(Number.isFinite(seconds)){
-          telemetrySeen = true;
-          lastTelemetryAt = Date.now();
-          applyWatchTime(seconds);
-        }
+        const data = event.data;
+        if(!data || data.type !== 'hm21-player-time') return;
+
+        applyWatchTime(data.currentTime);
       });
 
-      // Também deixa uma ponte disponível caso o player do Internal Business
-      // passe a chamar o parent diretamente.
+      // Ponte opcional para testes/integrações futuras.
       window.HardModeReveal = {
-        setTime: function(seconds){
-          telemetrySeen = true;
-          lastTelemetryAt = Date.now();
-          applyWatchTime(seconds);
-        },
+        setTime: applyWatchTime,
         setStage: setStage
       };
 
       function requestPlayerTime(){
         if(!embeddedPlayer || !embeddedPlayer.contentWindow) return;
 
-        [
-          {type:'getCurrentTime'},
-          {event:'getCurrentTime'},
-          {method:'getCurrentTime'},
-          {type:'player:getCurrentTime'}
-        ].forEach(function(message){
-          try{
-            embeddedPlayer.contentWindow.postMessage(message, PLAYER_ORIGIN);
-          }catch(error){}
-        });
+        try{
+          embeddedPlayer.contentWindow.postMessage(
+            {type:'getCurrentTime'},
+            PLAYER_ORIGIN
+          );
+        }catch(error){}
       }
 
-      if('IntersectionObserver' in window && embeddedPlayer){
-        const playerObserver = new IntersectionObserver(function(entries){
-          entries.forEach(function(entry){
-            if(entry.target === embeddedPlayer){
-              iframeVisible = entry.isIntersecting && entry.intersectionRatio >= .25;
-            }
-          });
-        },{threshold:[0,.25,.5,1]});
+      // Pede uma leitura ao carregar e periodicamente como redundância.
+      // O player também envia timeupdate/play/pause/seeked/loadedmetadata.
+      requestPlayerTime();
+      setInterval(requestPlayerTime, 5000);
 
-        playerObserver.observe(embeddedPlayer);
-      }
-
-      // O iframe é cross-origin. Se ele enviar currentTime por postMessage,
-      // usamos o tempo real. Se não enviar, usamos um relógio de fallback
-      // somente enquanto a aba está visível e o vídeo permanece em tela.
-      setInterval(function(){
-        requestPlayerTime();
-
-        const now = performance.now();
-        const delta = Math.max(0, (now - lastClockTick) / 1000);
-        lastClockTick = now;
-
-        const telemetryIsFresh = telemetrySeen && (Date.now() - lastTelemetryAt < 8000);
-
-        if(!telemetryIsFresh && document.visibilityState === 'visible' && iframeVisible){
-          maxWatchedSeconds += Math.min(delta, 2);
-          updateTimedStage(maxWatchedSeconds);
-
-          if(Math.floor(maxWatchedSeconds) % 5 === 0){
-            saveWatchProgress();
-          }
-        }
-      },1000);
-
+      window.addEventListener('focus', requestPlayerTime);
       document.addEventListener('visibilitychange',function(){
-        lastClockTick = performance.now();
+        if(document.visibilityState === 'visible'){
+          requestPlayerTime();
+        }
       });
 
-      // Garante que a página retome o último estágio já alcançado.
+      // Restaura apenas progresso que veio de telemetria real do player.
       updateTimedStage(maxWatchedSeconds);
 
       if(stage20Advance){
         stage20Advance.addEventListener('click',function(){
+          manualMinStage = Math.max(manualMinStage, 35);
           setStage(35,'manual');
         });
       }
