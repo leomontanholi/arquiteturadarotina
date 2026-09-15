@@ -67,7 +67,7 @@
     .brand img{width:136px;height:auto}
     .header-lesson{font:700 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
     .header-cta{display:none}
-    body.is-revealed .header-cta{display:inline-flex}
+    body.is-buy-ready .header-cta{display:inline-flex}
 
     /* Aula */
     .lesson{padding:72px 0 88px}
@@ -84,7 +84,7 @@
     .lesson-micro{margin:18px auto 0;max-width:760px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55;text-wrap:balance}
     .lesson-actions{max-width:1020px;margin:18px auto 0;display:grid;justify-items:center;gap:14px}
     .lesson-buy{display:none;justify-items:center;gap:10px;text-align:center}
-    body.is-revealed .lesson-buy{display:grid}
+    body.is-buy-ready .lesson-buy{display:grid}
     .timed-call{width:min(720px,100%);border:1px solid var(--line-strong);border-radius:10px;background:#fff;padding:22px 24px;text-align:center;box-shadow:var(--shadow-soft)}
     .timed-call[hidden]{display:none!important}
     .timed-call .timed-kicker{display:block;margin-bottom:8px;font:700 8px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -106,6 +106,7 @@
     .test-buttons{display:flex;gap:7px;flex-wrap:wrap}
     .test-buttons button{min-height:34px;padding:0 11px;border:1px solid var(--line-strong);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;font:700 11px var(--display)}
     .test-buttons button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+    body:not(.is-buy-ready) .checkout-link{display:none!important}
     .post-reveal[hidden]{display:none!important}
 
     /* Conteúdo revelado */
@@ -264,7 +265,7 @@
 
     /* Barra fixa */
     .sticky-buy{position:fixed;left:50%;bottom:18px;z-index:90;width:min(620px,calc(100% - 28px));transform:translateX(-50%) translateY(130%);opacity:0;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 12px 11px 18px;border:1px solid #33363d;border-radius:10px;background:#15171c;color:#fff;box-shadow:0 20px 55px rgba(0,0,0,.28);transition:.3s ease}
-    body.is-revealed .sticky-buy.show{transform:translateX(-50%) translateY(0);opacity:1}
+    body.is-buy-ready .sticky-buy.show{transform:translateX(-50%) translateY(0);opacity:1}
     .sticky-buy span{font:700 8px var(--mono);letter-spacing:.1em;color:#aeb3bd}
     .sticky-buy b{display:block;margin-top:3px;font-size:13px}
     .sticky-buy a{min-height:42px;padding:0 18px;border-radius:7px;background:#fff;color:var(--ink);display:inline-flex;align-items:center;font-family:var(--display);font-weight:800;font-size:13px}
@@ -382,8 +383,8 @@
         </div>
         <div class="player-shell" id="player-shell">
           <div style="position:relative;padding-top:56.25%">
-            <iframe src="https://internalbusiness.vercel.app/v/xP3v_BYNybJA" style="position:absolute;inset:0;width:100%;height:100%;border:0"
-              allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <iframe id="lesson-player" src="https://internalbusiness.vercel.app/v/xP3v_BYNybJA" style="position:absolute;inset:0;width:100%;height:100%;border:0"
+              allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
         <p class="lesson-micro">Assista até o fim. No final, eu junto tudo que você viu e mostro como transformar isso em um plano pra sua rotina.</p>
@@ -418,6 +419,7 @@
               <button type="button" data-test-stage="20">20 min</button>
               <button type="button" data-test-stage="35">35 min</button>
               <button type="button" data-test-stage="50">50 min</button>
+              <button type="button" data-test-stage="54">54 min</button>
             </div>
           </div>
         </div>
@@ -733,21 +735,23 @@
        VIDEO_URL: link direto de vídeo, YouTube ou Vimeo.
        Os três estágios são acionados pelo tempo real do vídeo quando VIDEO_URL aponta para um arquivo de vídeo direto.
        20 min: primeira chamada discreta.
-       35 min: apresentação curta do Hard Mode 21 + CTA.
+       35 min: apresentação curta do Hard Mode 21.
        50 min: reveal completo da página.
+       54 min: liberação dos botões de compra.
        Para testar sem esperar, abra a página com ?teste=1 no final da URL.
     */
-    const CHECKOUT_URL = '';
-    const VIDEO_URL = '';
+    const CHECKOUT_URL = 'https://pay.hotmart.com/V104980195L?checkoutMode=10';
+    const VIDEO_URL = 'https://internalbusiness.vercel.app/v/xP3v_BYNybJA';
+    const PLAYER_ORIGIN = 'https://internalbusiness.vercel.app';
     const STAGE_20_SECONDS = 20 * 60;
     const STAGE_35_SECONDS = 35 * 60;
     const FULL_REVEAL_SECONDS = 50 * 60;
+    const BUY_REVEAL_SECONDS = 54 * 60;
 
     (function(){
       const body = document.body;
       const sales = document.getElementById('sales-content');
       const shell = document.getElementById('player-shell');
-      const placeholder = document.getElementById('player-placeholder');
       const toast = document.getElementById('toast');
       const sticky = document.getElementById('sticky-buy');
       const stage20 = document.getElementById('stage-20');
@@ -769,7 +773,9 @@
       function setStage(stage, source){
         currentStage = stage;
         const full = stage >= 50;
+        const buyReady = stage >= 54;
         body.classList.toggle('is-revealed', full);
+        body.classList.toggle('is-buy-ready', buyReady);
         sales.hidden = !full;
         if(postRevealFooter) postRevealFooter.hidden = !full;
         if(stage20) stage20.hidden = !(stage >= 20 && stage < 35);
@@ -783,46 +789,150 @@
       }
 
       function updateTimedStage(seconds){
+        if(seconds >= BUY_REVEAL_SECONDS) return setStage(54,'video');
         if(seconds >= FULL_REVEAL_SECONDS) return setStage(50,'video');
         if(seconds >= STAGE_35_SECONDS) return setStage(35,'video');
         if(seconds >= STAGE_20_SECONDS) return setStage(20,'video');
         return setStage(0,'video');
       }
 
-      function configurePlayer(){
-        if(!VIDEO_URL){
-          sales.hidden = true;
-          if(postRevealFooter) postRevealFooter.hidden = true;
-          return;
+      const embeddedPlayer = document.getElementById('lesson-player');
+      const PROGRESS_KEY = 'hm21_arquitetura_watch_seconds_v4';
+      let maxWatchedSeconds = 0;
+      let iframeVisible = true;
+      let lastClockTick = performance.now();
+      let telemetrySeen = false;
+      let lastTelemetryAt = 0;
+
+      try{
+        maxWatchedSeconds = Math.max(0, Number(localStorage.getItem(PROGRESS_KEY)) || 0);
+      }catch(error){}
+
+      function saveWatchProgress(){
+        try{
+          localStorage.setItem(PROGRESS_KEY, String(Math.floor(maxWatchedSeconds)));
+        }catch(error){}
+      }
+
+      function applyWatchTime(seconds){
+        const value = Number(seconds);
+        if(!Number.isFinite(value) || value < 0) return;
+
+        maxWatchedSeconds = Math.max(maxWatchedSeconds, value);
+        updateTimedStage(maxWatchedSeconds);
+        saveWatchProgress();
+      }
+
+      function findPlayerSeconds(value, depth){
+        if(depth > 4 || value == null) return null;
+
+        if(typeof value === 'string'){
+          try{
+            return findPlayerSeconds(JSON.parse(value), depth + 1);
+          }catch(error){
+            return null;
+          }
         }
-        placeholder.remove();
-        const youtube = /youtube\.com|youtu\.be/.test(VIDEO_URL);
-        const vimeo = /vimeo\.com/.test(VIDEO_URL);
-        if(youtube || vimeo){
-          const frame = document.createElement('iframe');
-          frame.src = VIDEO_URL;
-          frame.title = 'Aula gratuita Arquitetura da Rotina';
-          frame.allow = 'autoplay; fullscreen; picture-in-picture';
-          frame.allowFullscreen = true;
-          shell.appendChild(frame);
-          sales.hidden = true;
-          if(postRevealFooter) postRevealFooter.hidden = true;
-          return;
+
+        if(typeof value !== 'object') return null;
+
+        const keys = [
+          'currentTime','current_time','playedSeconds','played_seconds',
+          'seconds','position','time','playbackTime','playback_time'
+        ];
+
+        for(const key of keys){
+          const number = Number(value[key]);
+          if(Number.isFinite(number) && number >= 0) return number;
         }
-        const video = document.createElement('video');
-        video.controls = true;
-        video.playsInline = true;
-        video.preload = 'metadata';
-        video.src = VIDEO_URL;
-        shell.appendChild(video);
-        sales.hidden = true;
-        if(postRevealFooter) postRevealFooter.hidden = true;
-        video.addEventListener('timeupdate',function(){
-          updateTimedStage(video.currentTime);
+
+        const nested = ['data','detail','payload','player','video','state'];
+        for(const key of nested){
+          const found = findPlayerSeconds(value[key], depth + 1);
+          if(Number.isFinite(found)) return found;
+        }
+
+        return null;
+      }
+
+      window.addEventListener('message',function(event){
+        if(!embeddedPlayer || event.source !== embeddedPlayer.contentWindow) return;
+        if(event.origin !== PLAYER_ORIGIN) return;
+
+        const seconds = findPlayerSeconds(event.data, 0);
+        if(Number.isFinite(seconds)){
+          telemetrySeen = true;
+          lastTelemetryAt = Date.now();
+          applyWatchTime(seconds);
+        }
+      });
+
+      // Também deixa uma ponte disponível caso o player do Internal Business
+      // passe a chamar o parent diretamente.
+      window.HardModeReveal = {
+        setTime: function(seconds){
+          telemetrySeen = true;
+          lastTelemetryAt = Date.now();
+          applyWatchTime(seconds);
+        },
+        setStage: setStage
+      };
+
+      function requestPlayerTime(){
+        if(!embeddedPlayer || !embeddedPlayer.contentWindow) return;
+
+        [
+          {type:'getCurrentTime'},
+          {event:'getCurrentTime'},
+          {method:'getCurrentTime'},
+          {type:'player:getCurrentTime'}
+        ].forEach(function(message){
+          try{
+            embeddedPlayer.contentWindow.postMessage(message, PLAYER_ORIGIN);
+          }catch(error){}
         });
       }
-      configurePlayer();
-      setStage(0,'init');
+
+      if('IntersectionObserver' in window && embeddedPlayer){
+        const playerObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.target === embeddedPlayer){
+              iframeVisible = entry.isIntersecting && entry.intersectionRatio >= .25;
+            }
+          });
+        },{threshold:[0,.25,.5,1]});
+
+        playerObserver.observe(embeddedPlayer);
+      }
+
+      // O iframe é cross-origin. Se ele enviar currentTime por postMessage,
+      // usamos o tempo real. Se não enviar, usamos um relógio de fallback
+      // somente enquanto a aba está visível e o vídeo permanece em tela.
+      setInterval(function(){
+        requestPlayerTime();
+
+        const now = performance.now();
+        const delta = Math.max(0, (now - lastClockTick) / 1000);
+        lastClockTick = now;
+
+        const telemetryIsFresh = telemetrySeen && (Date.now() - lastTelemetryAt < 8000);
+
+        if(!telemetryIsFresh && document.visibilityState === 'visible' && iframeVisible){
+          maxWatchedSeconds += Math.min(delta, 2);
+          updateTimedStage(maxWatchedSeconds);
+
+          if(Math.floor(maxWatchedSeconds) % 5 === 0){
+            saveWatchProgress();
+          }
+        }
+      },1000);
+
+      document.addEventListener('visibilitychange',function(){
+        lastClockTick = performance.now();
+      });
+
+      // Garante que a página retome o último estágio já alcançado.
+      updateTimedStage(maxWatchedSeconds);
 
       if(stage20Advance){
         stage20Advance.addEventListener('click',function(){
@@ -887,7 +997,7 @@
       });
 
       function updateSticky(){
-        sticky.classList.toggle('show',body.classList.contains('is-revealed') && window.scrollY > 780);
+        sticky.classList.toggle('show',body.classList.contains('is-buy-ready') && window.scrollY > 780);
       }
       window.addEventListener('scroll',updateSticky,{passive:true});
       updateSticky();
