@@ -92,12 +92,12 @@
     .timed-call p{max-width:600px;margin:0 auto;color:#4a4f58;font-size:14px;line-height:1.6;text-wrap:pretty}
     .timed-call .timed-actions{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
     .timed-call .timed-link{appearance:none;border:0;background:transparent;padding:0;color:var(--ink);cursor:pointer;font:700 13px/1.3 var(--display);text-decoration:underline;text-underline-offset:4px}
-    .timed-call.stage-20{border:1px solid #d8dce3;background:#fff;box-shadow:none;padding:26px 30px}
-    .timed-call.stage-35{background:var(--ink);color:#fff;border-color:var(--ink);padding:24px}
-    .timed-call.stage-35 .timed-kicker,.timed-call.stage-35 p{color:#c6cad1}
-    .timed-call.stage-35 h3{max-width:650px;font-size:24px}
-    .timed-call.stage-35 .microcopy{margin:10px auto 0;color:#aeb3bd}
-    .timed-call.stage-35 .btn{background:#fff;color:var(--ink);border-color:#fff}
+    .timed-call.stage-12{border:1px solid #d8dce3;background:#fff;box-shadow:none;padding:26px 30px}
+    .timed-call.stage-30{background:var(--ink);color:#fff;border-color:var(--ink);padding:24px}
+    .timed-call.stage-30 .timed-kicker,.timed-call.stage-30 p{color:#c6cad1}
+    .timed-call.stage-30 h3{max-width:650px;font-size:24px}
+    .timed-call.stage-30 .microcopy{margin:10px auto 0;color:#aeb3bd}
+    .timed-call.stage-30 .btn{background:#fff;color:var(--ink);border-color:#fff}
     .test-panel{display:none;width:min(720px,100%);padding:12px;border:1px dashed var(--line-strong);border-radius:8px;background:var(--soft)}
     body.test-mode .test-panel{display:block}
     .test-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
@@ -355,9 +355,9 @@
   
     @media(max-width:640px){
       .timed-call{padding:18px 16px}
-      .timed-call.stage-35{padding:20px 16px}
+      .timed-call.stage-30{padding:20px 16px}
       .timed-call h3{font-size:18px}
-      .timed-call.stage-35 h3{font-size:21px}
+      .timed-call.stage-30 h3{font-size:21px}
       .timed-call .timed-actions,.timed-call .btn{width:100%}
       .test-buttons{display:grid;grid-template-columns:repeat(2,1fr);width:100%}
       .test-buttons button{width:100%}
@@ -383,21 +383,24 @@
         </div>
         <div class="player-shell" id="player-shell">
           <div style="position:relative;padding-top:56.25%">
-            <iframe id="lesson-player" src="https://internalbusiness.vercel.app/v/xP3v_BYNybJA" style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            <iframe id="lesson-player"
+              src="https://internalbusiness.vercel.app/v/OIPgTF65h-MW"
+              title="Aula gratuita Arquitetura da Rotina"
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"
               allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
         <p class="lesson-micro">Assista até o fim. No final, eu junto tudo que você viu e mostro como transformar isso em um plano pra sua rotina.</p>
         <div class="lesson-actions">
-          <div class="timed-call stage-20" id="stage-20" hidden>
+          <div class="timed-call stage-12" id="stage-12" hidden>
             <h3>Já entendeu a lógica e quer aplicar isso na sua própria rotina?</h3>
             <p>Eu posso te mostrar como descobrir o que você precisa corrigir primeiro e transformar isso num plano claro para os próximos 21 dias.</p>
             <div class="timed-actions">
-              <button class="timed-link" type="button" id="stage-20-advance">Quero ver como funciona →</button>
+              <button class="timed-link" type="button" id="stage-12-advance">Quero ver como funciona →</button>
             </div>
           </div>
 
-          <div class="timed-call stage-35" id="stage-35" hidden>
+          <div class="timed-call stage-30" id="stage-30" hidden>
             <span class="timed-kicker">Hard Mode 21</span>
             <h3>Descubra o que está atrapalhando a sua rotina e receba um plano de 21 dias feito para o seu caso.</h3>
             <p>Você responde um questionário, o Hard Mode 21 identifica a sua maior dificuldade e monta o plano que você vai seguir pelos próximos 21 dias.</p>
@@ -416,10 +419,9 @@
             <div class="test-panel-head"><b>Modo de teste</b><span>Simule o tempo do vídeo</span></div>
             <div class="test-buttons">
               <button type="button" data-test-stage="0">Início</button>
-              <button type="button" data-test-stage="20">20 min</button>
-              <button type="button" data-test-stage="35">35 min</button>
-              <button type="button" data-test-stage="50">50 min</button>
-              <button type="button" data-test-stage="54">54 min</button>
+              <button type="button" data-test-stage="12">12 min</button>
+              <button type="button" data-test-stage="30">30 min</button>
+              <button type="button" data-test-stage="53">53 min</button>
             </div>
           </div>
         </div>
@@ -730,23 +732,20 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    /* CONFIGURAÇÃO
-       CHECKOUT_URL: link da Hotmart.
-       VIDEO_URL: link direto de vídeo, YouTube ou Vimeo.
-       Os três estágios são acionados pelo tempo real do vídeo quando VIDEO_URL aponta para um arquivo de vídeo direto.
-       20 min: primeira chamada discreta.
-       35 min: apresentação curta do Hard Mode 21.
-       50 min: reveal completo da página.
-       54 min: liberação dos botões de compra.
-       Para testar sem esperar, abra a página com ?teste=1 no final da URL.
+    /* CONFIGURAÇÃO — ARQUITETURA DA ROTINA
+       Duração real: 56 minutos e 17 segundos.
+       12 min: primeira mensagem.
+       30 min: apresentação do Hard Mode 21.
+       53 min: toda a página da oferta e todos os botões de compra são liberados.
+       ?teste=1: modo de teste visual dos estágios.
+       Os gatilhos dependem do tempo real recebido do player via postMessage.
     */
     const CHECKOUT_URL = 'https://pay.hotmart.com/V104980195L?checkoutMode=10';
-    const VIDEO_URL = 'https://internalbusiness.vercel.app/v/xP3v_BYNybJA';
+    const VIDEO_URL = 'https://internalbusiness.vercel.app/v/OIPgTF65h-MW';
     const PLAYER_ORIGIN = 'https://internalbusiness.vercel.app';
-    const STAGE_20_SECONDS = 20 * 60;
-    const STAGE_35_SECONDS = 35 * 60;
-    const FULL_REVEAL_SECONDS = 50 * 60;
-    const BUY_REVEAL_SECONDS = 54 * 60;
+    const STAGE_12_SECONDS = 12 * 60;
+    const STAGE_30_SECONDS = 30 * 60;
+    const FULL_REVEAL_SECONDS = 53 * 60;
 
     (function(){
       const body = document.body;
@@ -754,9 +753,9 @@
       const shell = document.getElementById('player-shell');
       const toast = document.getElementById('toast');
       const sticky = document.getElementById('sticky-buy');
-      const stage20 = document.getElementById('stage-20');
-      const stage35 = document.getElementById('stage-35');
-      const stage20Advance = document.getElementById('stage-20-advance');
+      const stage12 = document.getElementById('stage-12');
+      const stage30 = document.getElementById('stage-30');
+      const stage12Advance = document.getElementById('stage-12-advance');
       const postRevealFooter = document.getElementById('post-reveal-footer');
       const testMode = new URLSearchParams(window.location.search).get('teste') === '1' || window.location.hash === '#teste';
       if(testMode) body.classList.add('test-mode');
@@ -772,32 +771,30 @@
 
       function setStage(stage, source){
         currentStage = stage;
-        const full = stage >= 50;
-        const buyReady = stage >= 54;
+        const full = stage >= 53;
+        const buyReady = stage >= 53;
         body.classList.toggle('is-revealed', full);
         body.classList.toggle('is-buy-ready', buyReady);
         sales.hidden = !full;
         if(postRevealFooter) postRevealFooter.hidden = !full;
-        if(stage20) stage20.hidden = !(stage >= 20 && stage < 35);
-        if(stage35) stage35.hidden = !(stage >= 35 && stage < 50);
+        if(stage12) stage12.hidden = !(stage >= 12 && stage < 30);
+        if(stage30) stage30.hidden = !(stage >= 30 && stage < 53);
         updateSticky();
 
         document.querySelectorAll('[data-test-stage]').forEach(function(button){
           button.classList.toggle('active', Number(button.dataset.testStage) === stage);
         });
-
       }
 
       function updateTimedStage(seconds){
-        if(seconds >= BUY_REVEAL_SECONDS) return setStage(54,'video');
-        if(seconds >= FULL_REVEAL_SECONDS) return setStage(50,'video');
-        if(seconds >= STAGE_35_SECONDS) return setStage(35,'video');
-        if(seconds >= STAGE_20_SECONDS) return setStage(20,'video');
+        if(seconds >= FULL_REVEAL_SECONDS) return setStage(53,'video');
+        if(seconds >= STAGE_30_SECONDS) return setStage(30,'video');
+        if(seconds >= STAGE_12_SECONDS) return setStage(12,'video');
         return setStage(0,'video');
       }
 
       const embeddedPlayer = document.getElementById('lesson-player');
-      const PROGRESS_KEY = 'hm21_arquitetura_real_watch_seconds_v1';
+      const PROGRESS_KEY = 'hm21_arquitetura_OIPgTF65h-MW_watch_seconds_v1';
       let maxWatchedSeconds = 0;
       let manualMinStage = 0;
 
@@ -812,10 +809,9 @@
       }
 
       function stageFromSeconds(seconds){
-        if(seconds >= BUY_REVEAL_SECONDS) return 54;
-        if(seconds >= FULL_REVEAL_SECONDS) return 50;
-        if(seconds >= STAGE_35_SECONDS) return 35;
-        if(seconds >= STAGE_20_SECONDS) return 20;
+        if(seconds >= FULL_REVEAL_SECONDS) return 53;
+        if(seconds >= STAGE_30_SECONDS) return 30;
+        if(seconds >= STAGE_12_SECONDS) return 12;
         return 0;
       }
 
@@ -825,7 +821,6 @@
 
         maxWatchedSeconds = Math.max(maxWatchedSeconds, value);
         saveWatchProgress();
-
         const timedStage = stageFromSeconds(maxWatchedSeconds);
         setStage(Math.max(timedStage, manualMinStage), 'video');
       }
@@ -836,11 +831,9 @@
 
         const data = event.data;
         if(!data || data.type !== 'hm21-player-time') return;
-
         applyWatchTime(data.currentTime);
       });
 
-      // Ponte opcional para testes/integrações futuras.
       window.HardModeReveal = {
         setTime: applyWatchTime,
         setStage: setStage
@@ -848,34 +841,26 @@
 
       function requestPlayerTime(){
         if(!embeddedPlayer || !embeddedPlayer.contentWindow) return;
-
         try{
-          embeddedPlayer.contentWindow.postMessage(
-            {type:'getCurrentTime'},
-            PLAYER_ORIGIN
-          );
+          embeddedPlayer.contentWindow.postMessage({type:'getCurrentTime'}, PLAYER_ORIGIN);
         }catch(error){}
       }
 
-      // Pede uma leitura ao carregar e periodicamente como redundância.
-      // O player também envia timeupdate/play/pause/seeked/loadedmetadata.
       requestPlayerTime();
-      setInterval(requestPlayerTime, 5000);
-
-      window.addEventListener('focus', requestPlayerTime);
+      setInterval(requestPlayerTime,5000);
+      window.addEventListener('focus',requestPlayerTime);
       document.addEventListener('visibilitychange',function(){
-        if(document.visibilityState === 'visible'){
-          requestPlayerTime();
-        }
+        if(document.visibilityState === 'visible') requestPlayerTime();
       });
 
-      // Restaura apenas progresso que veio de telemetria real do player.
+      // Retoma somente os estágios atingidos neste vídeo, sem reaproveitar
+      // o progresso da versão anterior da aula.
       updateTimedStage(maxWatchedSeconds);
 
-      if(stage20Advance){
-        stage20Advance.addEventListener('click',function(){
-          manualMinStage = Math.max(manualMinStage, 35);
-          setStage(35,'manual');
+      if(stage12Advance){
+        stage12Advance.addEventListener('click',function(){
+          manualMinStage = Math.max(manualMinStage,30);
+          setStage(30,'manual');
         });
       }
 
